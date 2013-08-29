@@ -1,0 +1,30 @@
+﻿## Interface: 50400
+## Title: HaveIDoneThat
+## Notes: ...have I done that (probably achievement-related) thing?
+## Version: @project-version@
+## Author: Kemayo
+## eMail: kemayo at gmail dot com
+## X-Category: Achievements
+## X-Donate: PayPal:kemayo AT gmail DOT com
+
+## SavedVariables: HaveIDoneThatDB
+## SavedVariablesPerCharacter: HaveIDoneThatDBPC
+
+## OptionalDeps: tekDebug, tekErr
+## LoadOnDemand: 0
+
+#@no-lib-strip@
+lib\LibStub\LibStub.lua
+#@end-no-lib-strip@
+
+template\Database.lua
+template\UtilityFunctions.lua
+template\EventDispatcher.lua
+lib\tekKonfig\tekKonfig.xml
+
+# the core
+core.lua
+config.lua
+
+mobs.lua
+items.lua
