@@ -22,6 +22,7 @@ lib\LibStub\LibStub.lua
 template\Database.lua
 template\UtilityFunctions.lua
 template\EventDispatcher.lua
+template\Module.lua
 lib\tekKonfig\tekKonfig.xml
 
 # the core

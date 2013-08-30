@@ -1,5 +1,6 @@
 local myname, ns = ...
 local myfullname = GetAddOnMetadata(myname, "Title")
+local core = ns:GetModule("core")
 
 local tekcheck = LibStub("tekKonfig-Checkbox")
 local GAP = 8
@@ -10,9 +11,9 @@ local simple_config = function(frame, prev, key, label, tooltip, spacing)
     setting.tiptext = tooltip
     setting:SetScript("OnClick", function(self)
         checksound(self)
-        ns.db[key] = not ns.db[key]
+        core.db[key] = not core.db[key]
     end)
-    setting:SetChecked(ns.db[key])
+    setting:SetChecked(core.db[key])
     return setting
 end
 

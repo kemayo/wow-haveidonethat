@@ -1,8 +1,18 @@
 local myname, ns = ...
+local mod = ns:NewModule("items")
+local core = ns:GetModule("core")
 
 local commendations, achievements
 
-function ns:OnTooltipSetItem(tooltip)
+function mod:OnLoad()
+    self:HookScript(GameTooltip, "OnTooltipSetItem")
+    self:HookScript(ItemRefTooltip, "OnTooltipSetItem")
+    self:HookScript(ShoppingTooltip1, "OnTooltipSetItem")
+    self:HookScript(ShoppingTooltip2, "OnTooltipSetItem")
+    self:HookScript(ShoppingTooltip3, "OnTooltipSetItem")
+end
+
+function mod:OnTooltipSetItem(tooltip)
     local name, link = tooltip:GetItem()
     if not name then
         return
@@ -19,7 +29,7 @@ function ns:OnTooltipSetItem(tooltip)
     end
 
     -- and now the types
-    if self.db.achievements then
+    if core.db.achievements then
         for achievementid,items in pairs(achievements) do
             if items == false then
                 items = {}
@@ -33,9 +43,9 @@ function ns:OnTooltipSetItem(tooltip)
             end
             if items and items[id] then
                 local _, a_name, _, complete = GetAchievementInfo(achievementid)
-                if self.db.done_achievements or not complete then
+                if core.db.done_achievements or not complete then
                     local desc, _, done = GetAchievementCriteriaInfoByID(achievementid, items[id])
-                    if self.db.done_criteria or not done then
+                    if core.db.done_criteria or not done then
                         self:AddTooltipLine(tooltip, done, a_name, NEED, DONE)
                     end
                 end
@@ -44,7 +54,7 @@ function ns:OnTooltipSetItem(tooltip)
     end
 
     -- and this is a different check
-    if self.db.commendations and commendations[id] then
+    if core.db.commendations and commendations[id] then
         local hasBonusRepGain = select(15, GetFactionInfoByID(commendations[id]))
         self:AddTooltipLine(tooltip, hasBonusRepGain, BONUS_REPUTATION_TITLE, NEED, DONE)
     end

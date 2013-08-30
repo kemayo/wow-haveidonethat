@@ -1,4 +1,10 @@
 local myname, ns = ...
+local mod = ns:NewModule("mobs")
+local core = ns:GetModule("core")
+
+function mod:OnLoad()
+    self:RegisterEvent("UPDATE_MOUSEOVER_UNIT")
+end
 
 local achievements = {
     -- [achievementid] = {[mobid] = criteria}
@@ -64,17 +70,17 @@ do
     end
 end
 
-function ns:UPDATE_MOUSEOVER_UNIT()
+function mod:UPDATE_MOUSEOVER_UNIT()
     self:UpdateMobTooltip(self:UnitID('mouseover'), UnitName('mouseover'))
 end
 
 -- This is split out entirely so I can test this without having to actually hunt down a relevant mob
-function ns:UpdateMobTooltip(id, unit_name)
+function mod:UpdateMobTooltip(id, unit_name)
     if not id then
         return
     end
 
-    if self.db.achievements then
+    if core.db.achievements then
         for achievementid,mobs in pairs(achievements) do
             local settings = achievement_settings[achievementid] or achievement_settings.default
             if mobs == false then
@@ -88,9 +94,9 @@ function ns:UpdateMobTooltip(id, unit_name)
             end
             if mobs[id] or mobs[unit_name] then
                 local _, name, _, complete = GetAchievementInfo(achievementid)
-                if self.db.done_achievements or not complete then
+                if core.db.done_achievements or not complete then
                     local desc, _, done = GetAchievementCriteriaInfoByID(achievementid, mobs[id] or mobs[unit_name])
-                    if self.db.done_criteria or not done then
+                    if core.db.done_criteria or not done then
                         self:AddTooltipLine(GameTooltip, done, settings.criteria_label and desc or name, settings.need, settings.done)
                     end
                 end
@@ -99,4 +105,22 @@ function ns:UpdateMobTooltip(id, unit_name)
     end
 
     GameTooltip:Show()
+end
+
+do
+    local valid_unit_types = {
+        [0x003] = true, -- npcs
+        [0x005] = true, -- vehicles
+    }
+    local function npc_id_from_guid(guid)
+        if not guid then return end
+        local unit_type = bit.band(tonumber("0x"..strsub(guid, 3, 5)), 0x00f)
+        if not valid_unit_types[unit_type] then
+            return
+        end
+        return tonumber("0x"..strsub(guid, 6, 10))
+    end
+    function mod:UnitID(unit)
+        return npc_id_from_guid(UnitGUID(unit))
+    end
 end
