@@ -39,7 +39,7 @@ _G["SLASH_".. myname:upper().."2"] = "/hidt"
 SlashCmdList[myname:upper()] = function(msg)
     -- if msg:match("suggest") then
     -- else
-        InterfaceOptionsFrame_OpenToCategory(myname)
+        InterfaceOptionsFrame_OpenToCategory(myfullname)
     -- end
 end
 
@@ -47,8 +47,9 @@ LibStub:GetLibrary("LibDataBroker-1.1"):NewDataObject(myname, {
     type = "launcher",
     icon = [[Interface\HELPFRAME\HelpIcon-KnowledgeBase]],
     OnClick = function(self, button)
+        ns.Debug("Broker click", myname)
         -- if button == "RightButton" then
-            InterfaceOptionsFrame_OpenToCategory(myname)
+            InterfaceOptionsFrame_OpenToCategory(myfullname)
         -- else
         -- end
     end,
