@@ -1,6 +1,6 @@
 local myname, ns = ...
 
-local commendations, achievements, achievements_loaded
+local commendations, achievements
 
 function ns:OnTooltipSetItem(tooltip)
     local name, link = tooltip:GetItem()
@@ -26,11 +26,11 @@ function ns:OnTooltipSetItem(tooltip)
                 local _, _, _, _, _, _, _, itemid, _, criteriaid = GetAchievementCriteriaInfo(achievementid, i)
                 if itemid and criteriaid then
                     items[itemid] = criteriaid
+                    achievements[achievementid] = items
                 end
             end
-            achievements[achievementid] = items
         end
-        if items[id] then
+        if items and items[id] then
             local _, a_name, _, complete = GetAchievementInfo(achievementid)
             if ns.db.done_achievements or not complete then
                 local desc, _, done = GetAchievementCriteriaInfoByID(achievementid, items[id])
