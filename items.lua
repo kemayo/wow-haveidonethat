@@ -19,28 +19,32 @@ function ns:OnTooltipSetItem(tooltip)
     end
 
     -- and now the types
-    for achievementid,items in pairs(achievements) do
-        if items == false then
-            items = {}
-            for i=1, GetAchievementNumCriteria(achievementid) do
-                local _, _, _, _, _, _, _, itemid, _, criteriaid = GetAchievementCriteriaInfo(achievementid, i)
-                if itemid and criteriaid then
-                    items[itemid] = criteriaid
-                    achievements[achievementid] = items
+    if self.db.achievements then
+        for achievementid,items in pairs(achievements) do
+            if items == false then
+                items = {}
+                for i=1, GetAchievementNumCriteria(achievementid) do
+                    local _, _, _, _, _, _, _, itemid, _, criteriaid = GetAchievementCriteriaInfo(achievementid, i)
+                    if itemid and criteriaid then
+                        items[itemid] = criteriaid
+                        achievements[achievementid] = items
+                    end
                 end
             end
-        end
-        if items and items[id] then
-            local _, a_name, _, complete = GetAchievementInfo(achievementid)
-            if ns.db.done_achievements or not complete then
-                local desc, _, done = GetAchievementCriteriaInfoByID(achievementid, items[id])
-                self:AddTooltipLine(tooltip, done, a_name, NEED, DONE)
+            if items and items[id] then
+                local _, a_name, _, complete = GetAchievementInfo(achievementid)
+                if self.db.done_achievements or not complete then
+                    local desc, _, done = GetAchievementCriteriaInfoByID(achievementid, items[id])
+                    if self.db.done_criteria or not done then
+                        self:AddTooltipLine(tooltip, done, a_name, NEED, DONE)
+                    end
+                end
             end
         end
     end
 
     -- and this is a different check
-    if commendations[id] then
+    if self.db.commendations and commendations[id] then
         local hasBonusRepGain = select(15, GetFactionInfoByID(commendations[id]))
         self:AddTooltipLine(tooltip, hasBonusRepGain, BONUS_REPUTATION_TITLE, NEED, DONE)
     end

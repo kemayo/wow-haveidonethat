@@ -1,30 +1,24 @@
 local myname, ns = ...
 local myfullname = GetAddOnMetadata(myname, "Title")
 
+HIDT = ns
+
 ns.defaults = {
+    achievements = true,
     done_achievements = true,
     done_criteria = true,
+    commendations = true,
 }
-ns.defaultsPC = {
-    consumed = nil,
-    fished = nil,
-}
+ns.defaultsPC = {}
 
 ns:RegisterEvent("ADDON_LOADED")
 function ns:ADDON_LOADED(event, addon)
     if addon ~= myname then return end
     self:InitDB()
 
-    if not self.dbpc.consumed then
-        self.dbpc.consumed = {}
-    end
-    if not self.dbpc.fished then
-        self.dbpc.fished = {}
-    end
-
     -- Do anything you need to do after addon has loaded
 
-    LibStub("tekKonfig-AboutPanel").new(nil, myname) -- Make first arg nil if no parent config panel
+    LibStub("tekKonfig-AboutPanel").new(myfullname, myname) -- Make first arg nil if no parent config panel
 
     self:RegisterEvent("UPDATE_MOUSEOVER_UNIT")
 
@@ -75,9 +69,6 @@ do
 end
 
 function ns:AddTooltipLine(tooltip, complete, left, right_need, right_done)
-    if complete and not self.db.done_criteria then
-        return
-    end
     tooltip:AddDoubleLine(left or " ", complete and right_done or right_need,
         1, 1, 0,
         complete and 0 or 1, complete and 1 or 0, 0

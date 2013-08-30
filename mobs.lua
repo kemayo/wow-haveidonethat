@@ -52,8 +52,8 @@ local achievement_settings = {
     [2557] = { need = EMOTE152_CMD1, done = DONE, name = true, }, -- squirrels 2
     [5548] = { need = EMOTE152_CMD1, done = DONE, name = true, }, -- squirrels 3
     [6350] = { need = EMOTE152_CMD1, done = DONE, name = true, }, -- squirrels 4
-    [7934] = { criteria = true, },
-    [8293] = { criteria = true, },
+    [7934] = { criteria_label = true, },
+    [8293] = { criteria_label = true, },
 }
 do
     local achievements_meta = { __index = achievement_settings.default, }
@@ -74,21 +74,27 @@ function ns:UpdateMobTooltip(id, unit_name)
         return
     end
 
-    for achievementid,mobs in pairs(achievements) do
-        local settings = achievement_settings[achievementid] or achievement_settings.default
-        if mobs == false then
-            mobs = {}
-            for i=1,GetAchievementNumCriteria(achievementid) do
-                local desc, _, _, _, _, _, _, id, _, criteriaid = GetAchievementCriteriaInfo(achievementid, i)
-                mobs[id] = criteriaid
-                mobs[desc] = criteriaid
-                achievements[achievementid] = mobs
+    if self.db.achievements then
+        for achievementid,mobs in pairs(achievements) do
+            local settings = achievement_settings[achievementid] or achievement_settings.default
+            if mobs == false then
+                mobs = {}
+                for i=1,GetAchievementNumCriteria(achievementid) do
+                    local desc, _, _, _, _, _, _, id, _, criteriaid = GetAchievementCriteriaInfo(achievementid, i)
+                    mobs[id] = criteriaid
+                    mobs[desc] = criteriaid
+                    achievements[achievementid] = mobs
+                end
             end
-        end
-        if mobs[id] or mobs[unit_name] then
-            local _, name = GetAchievementInfo(achievementid)
-            local desc, _, done = GetAchievementCriteriaInfoByID(achievementid, mobs[id] or mobs[unit_name])
-            self:AddTooltipLine(GameTooltip, done, settings.criteria and desc or name, settings.nees, settings.done)
+            if mobs[id] or mobs[unit_name] then
+                local _, name, _, complete = GetAchievementInfo(achievementid)
+                if self.db.done_achievements or not complete then
+                    local desc, _, done = GetAchievementCriteriaInfoByID(achievementid, mobs[id] or mobs[unit_name])
+                    if self.db.done_criteria or not done then
+                        self:AddTooltipLine(GameTooltip, done, settings.criteria_label and desc or name, settings.need, settings.done)
+                    end
+                end
+            end
         end
     end
 

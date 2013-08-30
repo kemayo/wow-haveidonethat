@@ -1,5 +1,5 @@
 ﻿## Interface: 50400
-## Title: HaveIDoneThat
+## Title: Have I Done That?
 ## Notes: ...have I done that (probably achievement-related) thing?
 ## Version: @project-version@
 ## Author: Kemayo
@@ -11,7 +11,9 @@
 ## SavedVariablesPerCharacter: HaveIDoneThatDBPC
 
 ## OptionalDeps: tekDebug, tekErr
-## LoadOnDemand: 0
+## LoadManagers: AddonLoader
+## X-LoadOn-Always: delayed
+## X-LoadOn-Slash: /haveidonethat
 
 #@no-lib-strip@
 lib\LibStub\LibStub.lua
