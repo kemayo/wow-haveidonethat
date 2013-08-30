@@ -3,6 +3,16 @@ local myname, ns = ...
 local commendations = {
     [93220] = 1270, -- shado-pan
     [92522] = 1337, -- klaxxi
+    [93230] = 1345, -- lorewalkers
+    [93226] = 1272, -- tillers
+    [93229] = 1271, -- cloud serpent
+    [93215] = 1269, -- golden lotus
+    [93224] = 1341, -- august celestials
+    [93225] = 1302, -- anglers
+    [95548] = 1388, -- sunreaver onslaught
+    [93232] = 1375, -- dominance offensive
+    [95545] = 1387, -- kirin tor offensive
+    [93231] = 1376, -- operation shieldwall
 }
 
 function ns:OnTooltipSetItem(tooltip)
