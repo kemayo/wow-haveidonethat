@@ -1,8 +1,6 @@
 local myname, ns = ...
 local myfullname = GetAddOnMetadata(myname, "Title")
 
-HIDT = ns
-
 ns.defaults = {
     show_done = true,
 }
