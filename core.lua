@@ -2,7 +2,8 @@ local myname, ns = ...
 local myfullname = GetAddOnMetadata(myname, "Title")
 
 ns.defaults = {
-    show_done = true,
+    done_achievements = true,
+    done_criteria = true,
 }
 ns.defaultsPC = {
     consumed = nil,
@@ -74,7 +75,7 @@ do
 end
 
 function ns:AddTooltipLine(tooltip, complete, left, right_need, right_done)
-    if complete and not self.db.show_done then
+    if complete and not self.db.done_criteria then
         return
     end
     tooltip:AddDoubleLine(left or " ", complete and right_done or right_need,
