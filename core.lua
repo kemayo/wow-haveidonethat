@@ -5,7 +5,6 @@ ns.defaults = {
     show_done = true,
 }
 ns.defaultsPC = {
-    worn = nil,
     consumed = nil,
     fished = nil,
 }
@@ -15,9 +14,6 @@ function ns:ADDON_LOADED(event, addon)
     if addon ~= myname then return end
     self:InitDB()
 
-    if not self.dbpc.worn then
-        self.dbpc.worn = {}
-    end
     if not self.dbpc.consumed then
         self.dbpc.consumed = {}
     end
@@ -30,7 +26,6 @@ function ns:ADDON_LOADED(event, addon)
     LibStub("tekKonfig-AboutPanel").new(nil, myname) -- Make first arg nil if no parent config panel
 
     self:RegisterEvent("UPDATE_MOUSEOVER_UNIT")
-    self:RegisterEvent("UNIT_INVENTORY_CHANGED")
 
     self:HookScript(GameTooltip, "OnTooltipSetItem")
     self:HookScript(ItemRefTooltip, "OnTooltipSetItem")
@@ -48,7 +43,6 @@ function ns:PLAYER_LOGIN()
     self:RegisterEvent("PLAYER_LOGOUT")
 
     -- Do anything you need to do after the player has entered the world
-    self:UNIT_INVENTORY_CHANGED()
 
     self:UnregisterEvent("PLAYER_LOGIN")
     self.PLAYER_LOGIN = nil
