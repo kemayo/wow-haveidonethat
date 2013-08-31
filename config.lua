@@ -4,6 +4,7 @@ local core = ns:GetModule("core")
 
 local tekcheck = LibStub("tekKonfig-Checkbox")
 local GAP = 8
+local EDGEGAP = 16
 
 local simple_config = function(frame, prev, key, label, tooltip, spacing)
     local setting = tekcheck.new(frame, nil, label, "TOPLEFT", prev, "BOTTOMLEFT", 0, spacing or -GAP)
@@ -16,6 +17,12 @@ local simple_config = function(frame, prev, key, label, tooltip, spacing)
     setting:SetChecked(core.db[key])
     return setting
 end
+local simple_section = function(frame, prev, label)
+    local section = frame:CreateFontString(nil, "ARTWORK", "GameFontNormalLarge")
+    section:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, -2 * GAP)
+    section:SetText(label)
+    return section
+end
 
 local frame = CreateFrame("Frame", nil, InterfaceOptionsFramePanelContainer)
 frame.name = myfullname
@@ -23,16 +30,23 @@ frame:Hide()
 frame:SetScript("OnShow", function(frame)
     local title, subtitle = LibStub("tekKonfig-Heading").new(frame, myfullname, ("General settings for %s."):format(myfullname))
 
-    local achievements = simple_config(frame, subtitle, "achievements", "Show achievements", "Show whether a mob or item is needed for an achievement")
+    local ach_heading = simple_section(frame, subtitle, ACHIEVEMENTS)
+
+    local achievements = simple_config(frame, ach_heading, "achievements", "Show achievements", "Show whether a mob or item is needed for an achievement")
     local done_achievements = simple_config(frame, achievements, "done_achievements", "Show criteria for completed achievements")
     local done_criteria = simple_config(frame, done_achievements, "done_criteria", "Show completed criteria for incomplete achievements")
+    local show_id = simple_config(frame, done_criteria, "id", "Show achievement IDs", "Show achievement IDs around the place; mostly useful for debugging problems")
 
-    local commendations = simple_config(frame, done_criteria, "commendations", "Show commendations", "Show whether or not you've already bought and applied a commendation", -(2 * GAP))
+    local items_heading = simple_section(frame, show_id, ITEMS)
+
+    local commendations = simple_config(frame, items_heading, "commendations", "Show commendations", "Show whether or not you've already bought and applied a commendation")
 
     frame:SetScript("OnShow", nil)
 end)
 
 InterfaceOptions_AddCategory(frame)
+
+LibStub("tekKonfig-AboutPanel").new(myfullname, myname) -- Make first arg nil if no parent config panel
 
 _G["SLASH_".. myname:upper().."1"] = GetAddOnMetadata(myname, "X-LoadOn-Slash")
 _G["SLASH_".. myname:upper().."2"] = "/hidt"
