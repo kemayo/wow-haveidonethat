@@ -19,7 +19,11 @@ local achievements = {
         item = 45073,
         unit = function(unit)
             if UnitSex(unit) == 3 then
-                return UnitRace(unit)
+                local level = UnitLevel(unit)
+                if level == -1 or level >= 18 then
+                    -- (it's cheap, but just assume that -1 means over 18, since there's very few cases where you can be 10 levels greater and still be under 18)
+                    return UnitRace(unit)
+                end
             end
         end,
     },
