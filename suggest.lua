@@ -372,7 +372,7 @@ zones = {
         482,
         heroic = {493, 2039, 2057, 2151},
     }, -- Drak'Tharon Keep
-    [858] = {6978, 6545, 7312, 7313, 7314}, -- Dread Wastes
+    [858] = {6978, 6545, 7312, 7313, 7314, 7316}, -- Dread Wastes
     [27] = {627}, -- Dun Morogh
     [4] = {728, 4827}, -- Durotar
     [34] = {778}, -- Duskwood
@@ -457,12 +457,12 @@ zones = {
     [540] = {3857, 3845}, -- Isle of Conquest
     [929] = {}, -- Isle of Giants
     [499] = {868}, -- Isle of Quel'Danas
-    [928] = {8121}, -- Isle of Thunder
+    [928] = {8121, 8101, 8104, 8105, 8106, 8107, 8108, 8110, 8111, 8112, 8114, 8115, 8116, 8117, 8118, 8119, 8120, 8212}, -- Isle of Thunder
     [799] = {690}, -- Karazhan
     [610] = {4825, 4975, 5452, is_alliance and 5318 or 5319}, -- Kelp'thar Forest
     [605] = {}, -- Kezan
-    [857] = {6975, 6547, 7518}, -- Krasarang Wilds
-    [809] = {6976, 6480, 7386}, -- Kun-Lai Summit
+    [857] = {6975, 6547, 7518, is_alliance and 7928 or 7929, 7287}, -- Krasarang Wilds
+    [809] = {6976, 6480, 7386, 7286}, -- Kun-Lai Summit
     [35] = {779, 4827}, -- Loch Modan
     [747] = { -- Lost City of the Tol'vir
         4848,
@@ -685,7 +685,7 @@ zones = {
         650,
         heroic = {670},
     },
-    [873] = {}, -- The Veiled Stair
+    [873] = {7533, 7534, 8030, 7535, 7536, 8325}, -- The Veiled Stair
     [536] = { -- The Violet Hold
         483,
         heroic = {494, 2153, 1865, 2041, 1816},
@@ -710,7 +710,7 @@ zones = {
     [20] = {768}, -- Tirisfal Glades
     [709] = {is_alliance and 5718 or 5719}, -- Tol Barad Peninsula
     [708] = {4874, is_alliance and 5489 or 5490, is_alliance and 5718 or 5719}, -- Tol Barad
-    [810] = {6977, 7299}, -- Townlong Steppes
+    [810] = {6977, 7299, 7298, 7307, 7308, 7309, 7288}, -- Townlong Steppes
     [542] = { -- Trial of the Champion
         is_alliance and 4296 or 3778,
         heroic = {is_alliance and 4298 or 4297, 3802, 3803, 3804},
@@ -824,8 +824,8 @@ zones = {
         488,
         heroic = {499, 1873, 2043, 2156, 2157},
     }, -- Utgarde Pinnacle
-    [811] = {6979, 6546, 7317, 7318}, -- Vale of Eternal Blossoms
-    [807] = {6969, 6544, 6551, 7292, 7293, 7294, 7295, 7325, 7502, 6517}, -- Valley of the Four Winds
+    [811] = {6979, 6546, 7317, 7318, 7319, 7322, 7323, 7324}, -- Vale of Eternal Blossoms
+    [807] = {6969, 6544, 6551, 7292, 7293, 7294, 7295, 7325, 7502, 6517, 7296}, -- Valley of the Four Winds
     [889] = {}, -- Valley of Trials
     [613] = {4825, 4975, 5452, is_alliance and 5318 or 5319}, -- Vashj'ir
     [532] = { -- Vault of Archavon
@@ -909,6 +909,7 @@ quests = {
     [23] = 4892, -- Eastern Plaguelands
     [182] = 4931, -- Felwood
     [492] = 40, -- Icecrown
+    [928] = 8099, -- Isle of Thunder
     [683] = 4870, -- Mount Hyjal
     [479] = 1194, -- Netherstorm
     [37] = 4906, -- Northern Stranglethorn
