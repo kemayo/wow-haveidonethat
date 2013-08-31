@@ -118,6 +118,10 @@ do
                     button:SetPoint("TOPLEFT", buttons[i - 1], "BOTTOMLEFT", 0, 3)
                     button:SetPoint("TOPRIGHT", buttons[i - 1], "BOTTOMRIGHT", 0, 3)
                 end
+
+                button.id_text = button.icon:CreateFontString(nil, "OVERLAY", "GameFontNormalSmall")
+                button.id_text:SetPoint("BOTTOM", button.icon, "BOTTOM", 0, 10)
+
                 tinsert(buttons, button)
             end
             scroll_frame.buttons = buttons
@@ -238,6 +242,13 @@ function mod:UpdateSuggestions(frame, zoneid, size, variant)
 
             button.icon.texture:SetTexture(icon)
             button.id = id
+
+            if core.db.id then
+                button.id_text:SetText(id)
+                button.id_text:Show()
+            else
+                button.id_text:Hide()
+            end
 
             if completed then
                 button.completed = true
