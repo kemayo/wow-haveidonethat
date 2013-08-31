@@ -1,4 +1,5 @@
 local myname, ns = ...
+local myfullname = GetAddOnMetadata(myname, "Title")
 local mod = ns:NewModule("suggest")
 local core = ns:GetModule("core")
 
@@ -24,7 +25,128 @@ function mod:ADDON_LOADED(event, addon)
 end
 
 function mod:CreateButton()
+    local tab = CreateFrame("Button", "AchievementFrameTabHIDT", AchievementFrame, "AchievementFrameTabButtonTemplate")
+    tab:SetPoint("TOPRIGHT", "AchievementFrame", "BOTTOMRIGHT", -5, 0)
+    tab:SetText("What now?")
 
+    tab:SetScript("OnClick", function(_, button)
+        if (button) then
+            PlaySound("igCharacterInfoTab")
+        end
+        self:Suggest()
+    end)
+end
+
+do
+    local frame
+    local BUTTON_HEIGHT = 48
+    local function GetTooltipAnchor(frame)
+        local x, y = frame:GetCenter()
+
+        if not x or not y then
+            return "TOPLEFT", "BOTTOMLEFT"
+        end
+        local vhalf = (y > _G.UIParent:GetHeight() / 2) and "TOP" or "BOTTOM"
+        local hhalf = (x > _G.UIParent:GetWidth() * 2 / 3) and "RIGHT" or (x < _G.UIParent:GetWidth() / 3) and "LEFT" or ""
+        return vhalf .. hhalf, frame, (vhalf == "TOP" and "BOTTOM" or "TOP") .. (hhalf == "RIGHT" and "LEFT" or "RIGHT")
+    end
+    -- local function button_enter(self)
+    --     self.highlight:Show()
+    --     if self.link then
+    --         GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
+    --         GameTooltip:SetHyperlink(self.link)
+    --         GameTooltip:ClearAllPoints()
+    --         GameTooltip:SetPoint(GetTooltipAnchor(self))
+    --     end
+    -- end
+    local function button_click(self)
+        WatchFrame_OpenAchievementFrame(self, self.id)
+    end
+    function mod:CreateFrame()
+        if not frame then
+            if not IsAddOnLoaded("Blizzard_AchievementUI") then
+                LoadAddOn("Blizzard_AchievementUI")
+            end
+
+            frame = CreateFrame("Frame", "HIDTSuggestionsBox", UIParent, "BasicFrameTemplate")
+            frame:SetHeight(400)
+            frame:SetWidth(500)
+            frame:SetPoint("CENTER")
+            frame:SetMovable(true)
+            frame:SetClampedToScreen(true)
+            frame:EnableMouse(true)
+            frame:RegisterForDrag("LeftButton")
+            frame:SetScript("OnDragStart", frame.StartMoving)
+            frame:SetScript("OnDragStop", frame.StopMovingOrSizing)
+            frame:SetToplevel(true)
+            frame.TitleText:SetText(myfullname)
+            frame:Hide()
+
+            local scroll_frame = CreateFrame("ScrollFrame", "$parentScrollFrame", frame, "HybridScrollFrameTemplate")
+            scroll_frame:SetPoint("TOPLEFT", frame, "TOPLEFT", 4, -27)
+            scroll_frame:SetPoint("BOTTOMRIGHT", frame, "BOTTOMRIGHT", -27, 4)
+            scroll_frame:SetFrameLevel(frame:GetFrameLevel() + 1)
+            scroll_frame:EnableMouse(true)
+            frame.scroll_frame = scroll_frame
+
+            scroll_frame.update = function()
+                self:UpdateSuggestions(frame)
+            end
+            scroll_frame:SetScript("OnShow", scroll_frame.update)
+            frame:SetScript("OnShow", scroll_frame.update)
+
+            local scroll_bar = CreateFrame("Slider", "$parentScrollBar", scroll_frame, "HybridScrollBarTemplate")
+            scroll_bar:SetPoint("TOPLEFT", scroll_frame, "TOPRIGHT", 4, -13)
+            scroll_bar:SetPoint("BOTTOMLEFT", scroll_frame, "BOTTOMRIGHT", 4, 13)
+            scroll_bar.doNotHide = true
+
+            scroll_frame.scrollBar = scroll_bar
+            scroll_frame.buttonHeight = math.floor(BUTTON_HEIGHT + .5)
+
+            local scroll_child = scroll_frame.scrollChild
+            local num_buttons = math.ceil(frame:GetHeight() / BUTTON_HEIGHT) + 1
+            local buttons = {}
+            for i=1, num_buttons do
+                -- local button = CreateFrame("Button", "$parentButton"..i, scroll_child)
+                local button = CreateFrame("Button", "$parentButton"..i, scroll_child, "SummaryAchievementTemplate")
+                button.isSummary = true
+                AchievementFrameSummary_LocalizeButton(button)
+                -- the onload of this template adds us to a cache... let's take care of that...
+                tremove(AchievementFrameSummaryAchievements.buttons)
+                button:SetScript("OnClick", button_click)
+
+                if i == 1 then
+                    button:SetPoint("TOPLEFT", scroll_child, "TOPLEFT", 0, 0)
+                    button:SetPoint("TOPRIGHT", scroll_child, "TOPRIGHT", 0, 0)
+                else
+                    button:SetPoint("TOPLEFT", buttons[i - 1], "BOTTOMLEFT", 0, 3)
+                    button:SetPoint("TOPRIGHT", buttons[i - 1], "BOTTOMRIGHT", 0, 3)
+                end
+                tinsert(buttons, button)
+            end
+            scroll_frame.buttons = buttons
+
+            scroll_child:SetWidth(scroll_frame:GetWidth())
+            scroll_child:SetHeight(num_buttons * BUTTON_HEIGHT)
+            scroll_frame:SetVerticalScroll(0)
+            scroll_frame:UpdateScrollChildRect()
+
+            scroll_bar:SetMinMaxValues(0, num_buttons * BUTTON_HEIGHT)
+            scroll_bar:SetValueStep(.005)
+            scroll_bar:SetValue(0)
+
+            tinsert(UISpecialFrames, frame:GetName())
+        end
+        return frame
+    end
+    function mod:Suggest()
+        self:CreateFrame()
+        if frame:IsShown() then
+            frame:Hide()
+        else
+            frame:Show()
+        end
+    end
 end
 
 local accumulate = {}
@@ -40,8 +162,7 @@ local function suggestion_handler(suggestions, size, variant)
     end
     return accumulate
 end
-
-function mod:UpdateSuggestions(zoneid, size, variant)
+function mod:UpdateSuggestions(frame, zoneid, size, variant)
     zoneid = zoneid or GetCurrentMapAreaID()
     local suggestions = zones[zoneid]
     if not suggestions then
@@ -56,14 +177,65 @@ function mod:UpdateSuggestions(zoneid, size, variant)
     end
     wipe(accumulate)
     local to_suggest = suggestion_handler(suggestions, size, variant)
-    for i,aid in ipairs(to_suggest) do
-        local _, name, _, done = GetAchievementInfo(aid)
-        self.Print(name, done)
+
+    local scroll_frame = frame.scroll_frame
+    local num_items = #to_suggest
+
+    if num_items == 0 then
+        scroll_frame:Hide()
     end
-end
 
-function mod:Suggest()
+    HybridScrollFrame_Update(scroll_frame, num_items * scroll_frame.buttonHeight, scroll_frame:GetHeight())
+    local offset = HybridScrollFrame_GetOffset(scroll_frame)
+    local buttons = scroll_frame.buttons
 
+    for i = 1, #buttons do
+        local button = buttons[i]
+        local offset_i = offset + i
+
+        if offset_i <= num_items then
+            local id, name, points, completed, month, day, year, description, flags, icon, rewardText, isGuild, wasEarnedByMe, earnedBy = GetAchievementInfo(to_suggest[offset_i])
+            -- self.Print(name, done)
+            local saturatedStyle;
+            if bit.band(flags, ACHIEVEMENT_FLAGS_ACCOUNT) == ACHIEVEMENT_FLAGS_ACCOUNT then
+                button.accountWide = true
+                saturatedStyle = "account"
+            else
+                button.accountWide = nil
+                saturatedStyle = "normal"
+            end
+
+            button.label:SetText(name)
+            button.description:SetText(description)
+            AchievementShield_SetPoints(points, button.shield.points, GameFontNormal, GameFontNormalSmall)
+            if points > 0 then
+                button.shield.icon:SetTexture([[Interface\AchievementFrame\UI-Achievement-Shields]])
+            else
+                button.shield.icon:SetTexture([[Interface\AchievementFrame\UI-Achievement-Shields-NoPoints]])
+            end
+
+            button.shield.wasEarnedByMe = not (completed and not wasEarnedByMe)
+            button.shield.earnedBy = earnedBy
+
+            button.icon.texture:SetTexture(icon)
+            button.id = id
+
+            if completed then
+                button.dateCompleted:SetText(string.format(SHORTDATE, day, month, year))
+            else
+                button.dateCompleted:SetText("")
+            end
+             
+            if button.saturatedStyle ~= saturatedStyle then
+                button:Saturate()
+            end
+            button.tooltipTitle = nil
+
+            button:Show()
+        else
+            button:Hide()
+        end
+    end
 end
 
 do
