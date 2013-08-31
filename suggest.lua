@@ -215,7 +215,7 @@ function mod:UpdateSuggestions(frame, zoneid, size, variant)
         if offset_i <= num_items then
             -- This is pretty solidly copied from the default UI achievement frame
             local id, name, points, completed, month, day, year, description, flags, icon, rewardText, isGuild, wasEarnedByMe, earnedBy = GetAchievementInfo(to_suggest[offset_i])
-            local saturatedStyle;
+            local saturatedStyle
             if bit.band(flags, ACHIEVEMENT_FLAGS_ACCOUNT) == ACHIEVEMENT_FLAGS_ACCOUNT then
                 button.accountWide = true
                 saturatedStyle = "account"
@@ -240,14 +240,19 @@ function mod:UpdateSuggestions(frame, zoneid, size, variant)
             button.id = id
 
             if completed then
+                button.completed = true
                 button.dateCompleted:SetText(string.format(SHORTDATE, day, month, year))
+                button.dateCompleted:Show()
+                if button.saturatedStyle ~= saturatedStyle then
+                    button:Saturate()
+                end
             else
+                button.completed = false
                 button.dateCompleted:SetText("")
+                button.dateCompleted:Hide()
+                button:Desaturate()
             end
-             
-            if button.saturatedStyle ~= saturatedStyle then
-                button:Saturate()
-            end
+            
             button.tooltipTitle = nil
 
             button:Show()
