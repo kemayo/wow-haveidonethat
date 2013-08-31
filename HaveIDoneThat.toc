@@ -31,4 +31,6 @@ config.lua
 
 mobs.lua
 items.lua
+objects.lua
+
 suggest.lua
