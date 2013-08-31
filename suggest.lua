@@ -204,9 +204,9 @@ function mod:UpdateSuggestions(frame, zoneid, size, variant)
     local scroll_frame = frame.scroll_frame
     local num_items = #to_suggest
 
-    if num_items == 0 then
-        scroll_frame:Hide()
-    end
+    -- if num_items == 0 then
+    --     scroll_frame:Hide()
+    -- end
 
     HybridScrollFrame_Update(scroll_frame, num_items * scroll_frame.buttonHeight, scroll_frame:GetHeight())
     local offset = HybridScrollFrame_GetOffset(scroll_frame)
@@ -313,7 +313,7 @@ end
 
 zones = {
     [878] = {}, -- A Brewing Storm
-    [614] = {4975, 5452, is_alliance and 5318 or 5319}, -- Abyssal Depths
+    [614] = {4825, 4975, 5452, is_alliance and 5318 or 5319}, -- Abyssal Depths
     [522] = { -- Ahn'kahet: The Old Kingdom
         481,
         heroic = {492, 2056, 1862, 2038}
@@ -323,8 +323,8 @@ zones = {
     [401] = {1167, 226}, -- Alterac Valley
     [894] = {}, -- Ammen Vale
     [461] = {1169}, -- Arathi Basin
-    [16] = {}, -- Arathi Highlands
-    [43] = {4827}, -- Ashenvale
+    [16] = {761}, -- Arathi Highlands
+    [43] = {845, 4827}, -- Ashenvale
     [722] = { -- Auchenai Crypts
         666,
         heroic = {672},
@@ -333,9 +333,9 @@ zones = {
         480,
         heroic = {491, 1860, 1296, 1297},
     },
-    [181] = {5448, 5546, 5547}, -- Azshara
-    [464] = {}, -- Azuremyst Isle
-    [17] = {4827}, -- Badlands
+    [181] = {852, 5448, 5546, 5547}, -- Azshara
+    [464] = {860}, -- Azuremyst Isle
+    [17] = {765, 4827}, -- Badlands
     [752] = {}, -- Baradin Hold
     [796] = {697}, -- Black Temple
     [688] = {632}, -- Blackfathom Deeps
@@ -347,44 +347,44 @@ zones = {
     [721] = {643, 1307, 2188}, -- Blackrock Spire
     [754] = {}, -- Blackwing Descent
     [755] = {685}, -- Blackwing Lair
-    [475] = {1276}, -- Blade's Edge Mountains
-    [19] = {}, -- Blasted Lands
-    [476] = {}, -- Bloodmyst Isle
-    [486] = {561}, -- Borean Tundra
+    [475] = {865, 1276}, -- Blade's Edge Mountains
+    [19] = {766}, -- Blasted Lands
+    [476] = {861}, -- Bloodmyst Isle
+    [486] = {1264, 561}, -- Borean Tundra
     [884] = {}, -- Brewmoon Festival
-    [29] = {}, -- Burning Steppes
+    [29] = {775}, -- Burning Steppes
     [890] = {}, -- Camp Narache
     [866] = {}, -- Coldridge Valley
     [900] = {}, -- Crypt of Forgotten Kings
-    [510] = {}, -- Crystalsong Forest
+    [510] = {1457}, -- Crystalsong Forest
     [504] = {1956, 545,}, -- Dalaran
     [823] = {6020, 6021, 6022, 6023, 6026, 6027, 6028, 6029, is_alliance and 6030 or 6031, 6032, 6025}, -- Darkmoon Island
-    [42] = {4827}, -- Darkshore
+    [42] = {844, 4827}, -- Darkshore
     [381] = {6584}, -- Darnassus
-    [32] = {}, -- Deadwind Pass
+    [32] = {777}, -- Deadwind Pass
     [892] = {}, -- Deathknell
-    [640] = {5445, 5446, 5447, 5449}, -- Deepholm
-    [101] = {}, -- Desolace
+    [640] = {4864, 5445, 5446, 5447, 5449}, -- Deepholm
+    [101] = {848}, -- Desolace
     [699] = {644}, -- Dire Maul
     [824] = {}, -- Dragon Soul
-    [488] = {1277, 547}, -- Dragonblight
+    [488] = {1265, 1277, 547}, -- Dragonblight
     [534] = {
         482,
         heroic = {493, 2039, 2057, 2151},
     }, -- Drak'Tharon Keep
-    [858] = {6545, 7312, 7313, 7314}, -- Dread Wastes
-    [27] = {}, -- Dun Morogh
-    [4] = {4827}, -- Durotar
-    [34] = {}, -- Duskwood
-    [141] = {}, -- Dustwallow Marsh
-    [23] = {5442}, -- Eastern Plaguelands
+    [858] = {6978, 6545, 7312, 7313, 7314}, -- Dread Wastes
+    [27] = {627}, -- Dun Morogh
+    [4] = {728, 4827}, -- Durotar
+    [34] = {778}, -- Duskwood
+    [141] = {850}, -- Dustwallow Marsh
+    [23] = {771, 5442}, -- Eastern Plaguelands
     [891] = {}, -- Echo Isles
-    [30] = {}, -- Elwynn Forest
+    [30] = {776}, -- Elwynn Forest
     [820] = {}, -- End Time
-    [462] = {}, -- Eversong Woods
+    [462] = {859}, -- Eversong Woods
     [813] = {1171, 587, 1258, 211}, -- Eye of the Storm
-    [182] = {}, -- Felwood
-    [121] = {}, -- Feralas
+    [182] = {853}, -- Felwood
+    [121] = {849}, -- Feralas
     [800] = { -- Firelands
         5802, 5828, 5855,
         heroic = {5803},
@@ -393,7 +393,7 @@ zones = {
         6945,
         heroic = {6759, 6479, 6476},
     },
-    [463] = {}, -- Ghostlands
+    [463] = {858}, -- Ghostlands
     [611] = {}, -- Gilneas City
     [679] = {}, -- Gilneas
     [691] = {634}, -- Gnomeregan
@@ -401,7 +401,7 @@ zones = {
         4840,
         heroic = {5298, 5062, 5297},
     },
-    [490] = {1596}, -- Grizzly Hills
+    [490] = {1266, 1596}, -- Grizzly Hills
     [776] = {692}, -- Gruul's Lair
     [530] = { -- Gundrak
         484,
@@ -428,14 +428,14 @@ zones = {
         normal = {6936, 6518, 6683, 6553, 6937, 6922},
         heroic = {6729, 6726, 6727, 6730, 6725, 6728},
     },
-    [465] = {}, -- Hellfire Peninsula
+    [465] = {862}, -- Hellfire Peninsula
     [797] = { -- Hellfire Ramparts
         647,
         heroic = {667}
     },
-    [24] = {4827, 5365, 5364}, -- Hillsbrad Foothills
+    [24] = {772, 4827, 5365, 5364}, -- Hillsbrad Foothills
     [819] = {}, -- Hour of Twilight
-    [491] = {}, -- Howling Fjord
+    [491] = {1263}, -- Howling Fjord
     [541] = {}, -- Hrothgar's Landing
     [775] = {695}, -- Hyjal Summit
     [604] = { -- Icecrown Citadel
@@ -449,20 +449,21 @@ zones = {
         },
     },
     [492] = { -- Icecrown
+        1270,
         -- the tournament
         2756, 2772, 2836, 2773, 3736,
     },
     [341] = {6584}, -- Ironforge
     [540] = {3857, 3845}, -- Isle of Conquest
     [929] = {}, -- Isle of Giants
-    [499] = {}, -- Isle of Quel'Danas
+    [499] = {868}, -- Isle of Quel'Danas
     [928] = {8121}, -- Isle of Thunder
     [799] = {690}, -- Karazhan
-    [610] = {4975, 5452, is_alliance and 5318 or 5319}, -- Kelp'thar Forest
+    [610] = {4825, 4975, 5452, is_alliance and 5318 or 5319}, -- Kelp'thar Forest
     [605] = {}, -- Kezan
-    [857] = {6547, 7518}, -- Krasarang Wilds
-    [809] = {6480, 7386}, -- Kun-Lai Summit
-    [35] = {4827}, -- Loch Modan
+    [857] = {6975, 6547, 7518}, -- Krasarang Wilds
+    [809] = {6976, 6480, 7386}, -- Kun-Lai Summit
+    [35] = {779, 4827}, -- Loch Modan
     [747] = { -- Lost City of the Tol'vir
         4848,
         heroic = {5291, 5292, 5066, 5290},
@@ -488,19 +489,19 @@ zones = {
     },
     [696] = {686}, -- Molten Core
     [795] = {5859, 5866, 5867, 5870, 5871, 5872, 5873, 5874, 5879}, -- Molten Front
-    [241] = {}, -- Moonglade
-    [683] = {4959, 5483, 5859, 5860, 5861, 5862, 5864, 5865, 5868, 5869}, -- Mount Hyjal
-    [9] = {}, -- Mulgore
-    [477] = {939, 1576}, -- Nagrand
+    [241] = {855}, -- Moonglade
+    [683] = {4863, 4959, 5483, 5859, 5860, 5861, 5862, 5864, 5865, 5868, 5869}, -- Mount Hyjal
+    [9] = {736}, -- Mulgore
+    [477] = {866, 939, 1576}, -- Nagrand
     [535] = { -- Naxxramas
         size10 = {2146, 576, 578, 572, 1856, 2176, 2178, 2180, 568, 1996, 1997, 1858, 564, 2182, 2184, 566, 574, 562},
         size25 = {579, 565, 577, 575, 2177, 563, 567, 1857, 569, 573, 1859, 2139, 2181, 2183, 2185, 2147, 2140, 2179},
         unavailable = {2186, 2187},
     },
-    [479] = {545}, -- Netherstorm
+    [479] = {843, 545}, -- Netherstorm
     [895] = {}, -- New Tinkertown
-    [11] = {}, -- Northern Barrens
-    [37] = {940}, -- Northern Stranglethorn
+    [11] = {750}, -- Northern Barrens
+    [37] = {781, 940}, -- Northern Stranglethorn
     [864] = {}, -- Northshire
     [734] = { -- Old Hillsbrad Foothills
         652,
@@ -520,7 +521,7 @@ zones = {
     [680] = {629}, -- Ragefire Chasm
     [760] = {636}, -- Razorfen Downs
     [761] = {635}, -- Razorfen Kraul
-    [36] = {}, -- Redridge Mountains
+    [36] = {780}, -- Redridge Mountains
     [717] = {689}, -- Ruins of Ahn'Qiraj
     [685] = {}, -- Ruins of Gilneas City
     [684] = {}, -- Ruins of Gilneas
@@ -537,7 +538,7 @@ zones = {
         heroic = {6762, 6531, 6394, 6396, 6821},
     },
     [763] = {}, -- ScholomanceOLD
-    [28] = {}, -- Searing Gorge
+    [28] = {774}, -- Searing Gorge
     [780] = {694}, -- Serpentshrine Cavern
     [723] = { -- Sethekk Halls
         653,
@@ -556,21 +557,21 @@ zones = {
         heroic = {5505, 5093, 5503, 5504},
     },
     [888] = {}, -- Shadowglen
-    [473] = {}, -- Shadowmoon Valley
+    [473] = {864}, -- Shadowmoon Valley
     [481] = {1165, 903}, -- Shattrath City
-    [615] = {4975, 5452, is_alliance and 5318 or 5319}, -- Shimmering Expanse
-    [493] = {938, 961, 962, 952}, -- Sholazar Basin
+    [615] = {4825, 4975, 5452, is_alliance and 5318 or 5319}, -- Shimmering Expanse
+    [493] = {1268, 938, 961, 962, 952}, -- Sholazar Basin
     [905] = {}, -- Shrine of Seven Stars
     [903] = {}, -- Shrine of Two Moons
     [887] = { -- Siege of Niuzao Temple
         heroic = {6763, 6485, 6822, 6688},
     },
-    [261] = {}, -- Silithus
+    [261] = {856}, -- Silithus
     [480] = {6621}, -- Silvermoon City
-    [21] = {4827}, -- Silverpine Forest
+    [21] = {769, 4827}, -- Silverpine Forest
     [860] = {7106}, -- Silvershard Mines
-    [607] = {4827}, -- Southern Barrens
-    [81] = {}, -- Stonetalon Mountains
+    [607] = {4996, 4827}, -- Southern Barrens
+    [81] = {847}, -- Stonetalon Mountains
     [876] = { -- Stormstout Brewery
         6457, 6400, 6402,
         heroic = {6456, 6420, 6089},
@@ -581,16 +582,16 @@ zones = {
     [765] = {646}, -- Stratholme
     [893] = {}, -- Sunstrider Isle
     [789] = {698}, -- Sunwell Plateau
-    [38] = {}, -- Swamp of Sorrows
-    [161] = {4827}, -- Tanaris
-    [41] = {}, -- Teldrassil
+    [38] = {782}, -- Swamp of Sorrows
+    [161] = {851, 4827}, -- Tanaris
+    [41] = {842}, -- Teldrassil
     [782] = {696}, -- Tempest Keep
     [881] = {6981}, -- Temple of Kotmogu
     [867] = { -- Temple of the Jade Serpent
         6757,
         heroic = {6758, 6475, 6460, 6671},
     },
-    [478] = {1275}, -- Terokkar Forest
+    [478] = {867, 1275}, -- Terokkar Forest
     [886] = { -- Terrace of Endless Spring
         6689,
         normal = {6824, 6717, 6825, 6933},
@@ -615,7 +616,7 @@ zones = {
         659,
         heroic = {680},
     },
-    [673] = {389, 396, 4827}, -- The Cape of Stranglethorn
+    [673] = {4995, 389, 396, 4827}, -- The Cape of Stranglethorn
     [521] = { -- The Culling of Stratholme
         479,
         heroic = {500, 1872, 1817},
@@ -632,8 +633,8 @@ zones = {
         4516,
         heroic = {4519, 4522, 4523},
     },
-    [26] = {}, -- The Hinterlands
-    [806] = {6550, 7289, 7290, 7291, 7381}, -- The Jade Forest
+    [26] = {773}, -- The Hinterlands
+    [806] = {6351, 6550, 7289, 7290, 7291, 7381}, -- The Jade Forest
     [682] = {}, -- The Lost Isles
     [751] = {}, -- The Maelstrom
     [730] = { -- The Mechanar
@@ -674,11 +675,11 @@ zones = {
         heroic = {677},
     },
     [690] = {633}, -- The Stockade
-    [768] = {
+    [768] = { -- The Stonecore
         4846,
         heroic = {5063, 5287},
-    }, -- The Stonecore
-    [495] = {1428}, -- The Storm Peaks
+    },
+    [495] = {1269, 1428}, -- The Storm Peaks
     [687] = {641}, -- The Temple of Atal'Hakkar
     [726] = { -- The Underbog
         650,
@@ -694,7 +695,7 @@ zones = {
         heroic = {5289, 5064, 5288},
     },
     [808] = {}, -- The Wandering Isle
-    [61] = {4827}, -- Thousand Needles
+    [61] = {846, 4827}, -- Thousand Needles
     [773] = {}, -- Throne of the Four Winds
     [767] = { -- Throne of the Tides
         4839,
@@ -706,10 +707,10 @@ zones = {
         heroic = {8124, 8067},
     },
     [362] = {6621}, -- Thunder Bluff
-    [20] = {}, -- Tirisfal Glades
+    [20] = {768}, -- Tirisfal Glades
     [709] = {is_alliance and 5718 or 5719}, -- Tol Barad Peninsula
     [708] = {4874, is_alliance and 5489 or 5490, is_alliance and 5718 or 5719}, -- Tol Barad
-    [810] = {7299}, -- Townlong Steppes
+    [810] = {6977, 7299}, -- Townlong Steppes
     [542] = { -- Trial of the Champion
         is_alliance and 4296 or 3778,
         heroic = {is_alliance and 4298 or 4297, 3802, 3803, 3804},
@@ -725,7 +726,7 @@ zones = {
         },
         unavailable = {3808, 3817},
     },
-    [770] = {5451, 4960, 4958}, -- Twilight Highlands
+    [770] = {4866, 5451, 4960, 4958}, -- Twilight Highlands
     [626] = {5223}, -- Twin Peaks
     [692] = {638}, -- Uldaman
     [529] = { -- Ulduar
@@ -811,8 +812,8 @@ zones = {
         },
         unavailable = {2903, 2904, 3004, 3005, 3316},
     },
-    [748] = {5317, 4888, 4961}, -- Uldum
-    [201] = {}, -- Un'Goro Crater
+    [748] = {4865, 5317, 4888, 4961}, -- Uldum
+    [201] = {854}, -- Un'Goro Crater
     [382] = {6621}, -- Undercity
     [882] = {}, -- Unga Ingoo
     [523] = { -- Utgarde Keep
@@ -823,10 +824,10 @@ zones = {
         488,
         heroic = {499, 1873, 2043, 2156, 2157},
     }, -- Utgarde Pinnacle
-    [811] = {6546, 7317, 7318}, -- Vale of Eternal Blossoms
-    [807] = {6544, 6551, 7292, 7293, 7294, 7295, 7325, 7502, 6517}, -- Valley of the Four Winds
+    [811] = {6979, 6546, 7317, 7318}, -- Vale of Eternal Blossoms
+    [807] = {6969, 6544, 6551, 7292, 7293, 7294, 7295, 7325, 7502, 6517}, -- Valley of the Four Winds
     [889] = {}, -- Valley of Trials
-    [613] = {4975, 5452, is_alliance and 5318 or 5319}, -- Vashj'ir
+    [613] = {4825, 4975, 5452, is_alliance and 5318 or 5319}, -- Vashj'ir
     [532] = { -- Vault of Archavon
         size10 = {1722, 3136, 3836, 4016},
         size25 = {1721, 3137, 3837, 4017},
@@ -834,18 +835,18 @@ zones = {
     [749] = {630}, -- Wailing Caverns
     [443] = {1172, 1259}, -- Warsong Gulch
     [816] = {}, -- Well of Eternity
-    [22] = {}, -- Western Plaguelands
-    [39] = {4827}, -- Westfall
-    [40] = {}, -- Wetlands
+    [22] = {770}, -- Western Plaguelands
+    [39] = {802, 4827}, -- Westfall
+    [40] = {841}, -- Wetlands
     [501] = {1752, 2199, 1717, 1751, 1755, 1727, 1723}, -- Wintergrasp
-    [281] = {5443}, -- Winterspring
+    [281] = {857, 5443}, -- Winterspring
     [883] = {}, -- Zan'vess
-    [467] = {893}, -- Zangarmarsh
+    [467] = {863, 893}, -- Zangarmarsh
     [781] = { -- Zul'Aman
         5769, 5858, 5760, 5761, 5750,
         unavailable = {691},
     },
-    [496] = {1576, 1596}, -- Zul'Drak
+    [496] = {1267, 1576, 1596}, -- Zul'Drak
     [686] = {639}, -- Zul'Farrak
     [793] = { -- Zul'Gurub
         5768, 5765, 5743, 5762, 5759, 5744,
