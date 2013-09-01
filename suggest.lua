@@ -154,7 +154,7 @@ local function suggestion_handler(suggestions, size, variant)
     for i, aid in ipairs(suggestions) do
         tinsert(accumulate, aid)
     end
-    if variant
+    if variant then
         if suggestions[variant] then
             suggestion_handler(suggestions[variant], size, variant)
         end
