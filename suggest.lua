@@ -15,7 +15,7 @@ local FIRSTAID = GetProfessionInfo(firstAid)
 
 function mod:OnLoad()
     if IsAddOnLoaded("Blizzard_AchievementUI") then
-        self:CreateButton()
+        self:CreateFrame()
     else
         mod:RegisterEvent("ADDON_LOADED")
     end
@@ -25,34 +25,24 @@ function mod:ADDON_LOADED(event, addon)
     if addon ~= "Blizzard_AchievementUI" then
         return
     end
-    self:CreateButton()
+    self:CreateFrame()
     self:UnregisterEvent("ADDON_LOADED")
 end
 
-function mod:CreateButton()
-    local tab = CreateFrame("Button", "AchievementFrameTabHIDT", AchievementFrame, "AchievementFrameTabButtonTemplate")
-    tab:SetPoint("TOPRIGHT", "AchievementFrame", "BOTTOMRIGHT", -5, 0)
-    tab:SetText("What now?")
-
-    tab:SetScript("OnClick", function(_, button)
+do
+    local frame, sidebar, tab
+    local function tab_click(tab, button)
         if (button) then
             PlaySound("igCharacterInfoTab")
         end
-        self:Suggest()
-    end)
-end
 
-do
-    local frame
-    local function GetTooltipAnchor(frame)
-        local x, y = frame:GetCenter()
+        -- Go through and unselect all the other tabs, and make ours look selected
+        AchievementFrame_UpdateTabs(tab:GetID())
+        -- ...but that won't adjust the text position because its loop maxes at 3
+        tab.text:SetPoint("CENTER", 0, -5)
 
-        if not x or not y then
-            return "TOPLEFT", "BOTTOMLEFT"
-        end
-        local vhalf = (y > _G.UIParent:GetHeight() / 2) and "TOP" or "BOTTOM"
-        local hhalf = (x > _G.UIParent:GetWidth() * 2 / 3) and "RIGHT" or (x < _G.UIParent:GetWidth() / 3) and "LEFT" or ""
-        return vhalf .. hhalf, frame, (vhalf == "TOP" and "BOTTOM" or "TOP") .. (hhalf == "RIGHT" and "LEFT" or "RIGHT")
+        -- display!
+        AchievementFrame_ShowSubFrame(frame, sidebar)
     end
     local function button_click(self, button, down)
         if IsModifiedClick() then
@@ -65,29 +55,60 @@ do
     end
     function mod:CreateFrame()
         if not frame then
-            if not IsAddOnLoaded("Blizzard_AchievementUI") then
-                LoadAddOn("Blizzard_AchievementUI")
-            end
+            -- First, our tab!
 
-            frame = CreateFrame("Frame", "HIDTSuggestionsBox", UIParent, "BasicFrameTemplate")
-            frame:SetHeight(490)
-            frame:SetWidth(530)
-            frame:SetPoint("CENTER")
-            frame:SetMovable(true)
-            frame:SetClampedToScreen(true)
-            frame:EnableMouse(true)
-            frame:RegisterForDrag("LeftButton")
-            frame:SetScript("OnDragStart", frame.StartMoving)
-            frame:SetScript("OnDragStop", frame.StopMovingOrSizing)
-            frame:SetToplevel(true)
-            frame.TitleText:SetText(myfullname)
+            local numtabs = 0
+            repeat
+                numtabs = numtabs + 1
+            until not _G["AchievementFrameTab"..numtabs]
+
+            tab = CreateFrame("Button", "AchievementFrameTab"..numtabs, AchievementFrame, "AchievementFrameTabButtonTemplate")
+            tab:SetPoint("TOPRIGHT", "AchievementFrame", "BOTTOMRIGHT", 0, 2)
+            tab:SetText("What now?")
+            tab:SetID(numtabs)
+            PanelTemplates_SetNumTabs(AchievementFrame, numtabs)
+
+            tab:SetScript("OnClick", tab_click)
+            hooksecurefunc("AchievementFrame_UpdateTabs", function()
+                tab.text:SetPoint("CENTER", 0, -3)
+            end)
+
+            -- So. We want to copy a bunch of AchievementFrameAchievements.
+
+            frame = CreateFrame("Frame", "HIDTAchievements", AchievementFrame)
+            frame:SetHeight(440)
+            frame:SetWidth(504)
+            -- frame:SetPoint("CENTER")
+            frame:SetPoint("TOPLEFT", AchievementFrameAchievements)
+            frame:SetPoint("BOTTOM", AchievementFrameAchievements)
             frame:Hide()
 
-            local scroll_frame = CreateFrame("ScrollFrame", "$parentScrollFrame", frame, "HybridScrollFrameTemplate")
-            scroll_frame:SetPoint("TOPLEFT", frame, "TOPLEFT", 4, -27)
-            scroll_frame:SetPoint("BOTTOMRIGHT", frame, "BOTTOMRIGHT", -27, 4)
-            scroll_frame:SetFrameLevel(frame:GetFrameLevel() + 1)
-            scroll_frame:EnableMouse(true)
+            local backdrop = CreateFrame("Frame", nil, frame)
+            backdrop:SetAllPoints()
+            backdrop:SetBackdrop({
+                edgeFile = [[Interface\Tooltips\UI-Tooltip-Border]],
+                tile = true,
+                tileSize = 16,
+                edgeSize = 16,
+                insets = {
+                    left = 5,
+                    right = 5,
+                    top = 5,
+                    bottom = 5,
+                },
+            })
+            backdrop:SetBackdropBorderColor(ACHIEVEMENTUI_GOLDBORDER_R, ACHIEVEMENTUI_GOLDBORDER_G, ACHIEVEMENTUI_GOLDBORDER_B, ACHIEVEMENTUI_GOLDBORDER_A)
+            backdrop:SetFrameLevel(backdrop:GetFrameLevel() + 1)
+
+            frame.background = frame:CreateTexture("$parentBackground", "BACKGROUND")
+            frame.background:SetTexture([[Interface\AchievementFrame\UI-Achievement-AchievementBackground]])
+            frame.background:SetTexCoord(0, 1, 0, 0.5)
+            frame.background:SetPoint("TOPLEFT", 3, -3)
+            frame.background:SetPoint("BOTTOMRIGHT", -3, 3)
+
+            local scroll_frame = CreateFrame("ScrollFrame", "$parentContainer", frame, "HybridScrollFrameTemplate")
+            scroll_frame:SetPoint("TOPLEFT", frame, "TOPLEFT", 4, -3)
+            scroll_frame:SetPoint("BOTTOMRIGHT", frame, "BOTTOMRIGHT", 0, 5)
             frame.scroll_frame = scroll_frame
 
             scroll_frame.update = function()
@@ -97,10 +118,10 @@ do
             frame:SetScript("OnShow", scroll_frame.update)
 
             local scroll_bar = CreateFrame("Slider", "$parentScrollBar", scroll_frame, "HybridScrollBarTemplate")
-            scroll_bar:SetPoint("TOPLEFT", scroll_frame, "TOPRIGHT", 4, -13)
-            scroll_bar:SetPoint("BOTTOMLEFT", scroll_frame, "BOTTOMRIGHT", 4, 13)
+            scroll_bar:SetPoint("TOPLEFT", scroll_frame, "TOPRIGHT", 1, -16)
+            scroll_bar:SetPoint("BOTTOMLEFT", scroll_frame, "BOTTOMRIGHT", 1, 12)
+            scroll_bar.trackBG:Show()
             scroll_bar.doNotHide = true
-
             scroll_frame.scrollBar = scroll_bar
 
             HybridScrollFrame_CreateButtons(scroll_frame, "AchievementTemplate", 0, 0);
@@ -124,17 +145,45 @@ do
             --     tremove(AchievementFrameSummaryAchievements.buttons)
             -- end
 
+            sidebar = CreateFrame("Frame", frame:GetName().."Sidebar", AchievementFrame)
+            sidebar:SetWidth(197)
+            sidebar:SetPoint("TOPLEFT", 21, -19)
+            sidebar:SetPoint("BOTTOMLEFT", 21, 20)
+            sidebar:SetBackdrop({
+                edgeFile = [[Interface\Tooltips\UI-Tooltip-Border]],
+                edgeSize = 16,
+                tile = true,
+                tileSize = 16,
+                insets = {
+                    left = 5,
+                    right = 5,
+                    top = 5,
+                    bottom = 5,
+                },
+            })
+            sidebar:SetBackdropBorderColor(ACHIEVEMENTUI_GOLDBORDER_R, ACHIEVEMENTUI_GOLDBORDER_G, ACHIEVEMENTUI_GOLDBORDER_B, ACHIEVEMENTUI_GOLDBORDER_A)
+            sidebar:SetScript("OnShow", function()
+                AchievementFrameCategories:Hide()
+                AchievementFrameWaterMark:SetTexture("Interface\\AchievementFrame\\UI-Achievement-AchievementWatermark")
+            end)
+            sidebar:SetScript("OnHide", function()
+                AchievementFrameCategories:Show()
+            end)
+
             tinsert(UISpecialFrames, frame:GetName())
+            tinsert(ACHIEVEMENTFRAME_SUBFRAMES, frame:GetName())
+            tinsert(ACHIEVEMENTFRAME_SUBFRAMES, sidebar:GetName())
         end
         return frame
     end
-    function mod:Suggest()
-        self:CreateFrame()
-        if frame:IsShown() then
-            frame:Hide()
-        else
-            frame:Show()
+    function mod:ShowSuggestions()
+        if not AchievementFrame then
+            AchievementFrame_LoadUI()
         end
+        if not AchievementFrame:IsShown() then
+            AchievementFrame_ToggleAchievementFrame()
+        end
+        tab_click(tab)
     end
 end
 

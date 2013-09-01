@@ -54,7 +54,7 @@ SlashCmdList[myname:upper()] = function(msg)
     if msg:match("suggest") then
         local suggest = ns:GetModule("suggest")
         if suggest then
-            suggest:Suggest()
+            suggest:ShowSuggestions()
         end
     else
         InterfaceOptionsFrame_OpenToCategory(myfullname)
@@ -69,7 +69,7 @@ LibStub:GetLibrary("LibDataBroker-1.1"):NewDataObject(myname, {
         if (not suggest) or button == "RightButton" then
             InterfaceOptionsFrame_OpenToCategory(myfullname)
         else
-            suggest:Suggest()
+            suggest:ShowSuggestions()
         end
     end,
 })
