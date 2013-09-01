@@ -154,8 +154,14 @@ local function suggestion_handler(suggestions, size, variant)
     for i, aid in ipairs(suggestions) do
         tinsert(accumulate, aid)
     end
-    if variant and suggestions[variant] then
-        suggestion_handler(suggestions.heroic, size, variant)
+    if variant
+        if suggestions[variant] then
+            suggestion_handler(suggestions[variant], size, variant)
+        end
+        -- normal achievements can always be earned on heroic as well, so include them if they're present
+        if variant == "heroic" and suggestions.normal then
+            suggestion_handler(suggestions.normal, size, variant)
+        end
     end
     if size and suggestions['size' .. size] then
         suggestion_handler(suggestions[size], size, variant)
