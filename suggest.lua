@@ -318,8 +318,8 @@ zones = {
         481,
         heroic = {492, 2056, 1862, 2038}
     },
-    [766] = {687}, -- Ahn'Qiraj
-    [772] = {687, 689}, -- Ahn'Qiraj: The Fallen Kingdom
+    [766] = {687, 7934}, -- Ahn'Qiraj
+    [772] = {687, 689, 7934}, -- Ahn'Qiraj: The Fallen Kingdom
     [401] = {1167, 226}, -- Alterac Valley
     [894] = {}, -- Ammen Vale
     [461] = {1169}, -- Arathi Basin
@@ -345,8 +345,11 @@ zones = {
     },
     [704] = {642}, -- Blackrock Depths
     [721] = {643, 1307, 2188}, -- Blackrock Spire
-    [754] = {}, -- Blackwing Descent
-    [755] = {685}, -- Blackwing Lair
+    [754] = { -- Blackwing Descent
+        4842, 5306, 5307, 5308, 5309, 4849, 5310,
+        heroic = {5094, 5107, 5108, 5109, 5115, 5116},
+    },
+    [755] = {685, 7934}, -- Blackwing Lair
     [475] = {865, 1276}, -- Blade's Edge Mountains
     [19] = {766}, -- Blasted Lands
     [476] = {861}, -- Bloodmyst Isle
@@ -366,7 +369,11 @@ zones = {
     [640] = {4864, 5445, 5446, 5447, 5449}, -- Deepholm
     [101] = {848}, -- Desolace
     [699] = {644}, -- Dire Maul
-    [824] = {}, -- Dragon Soul
+    [824] = { -- Dragon Soul
+        6106, 6107,
+        normal = {6177, 6174, 6128, 6129, 6175, 6084, 6105, 6133, 6180},
+        heroic = {6109, 6110, 6111, 6112, 6113, 6114, 6115, 6116},
+    },
     [488] = {1265, 1277, 547}, -- Dragonblight
     [534] = {
         482,
@@ -386,12 +393,12 @@ zones = {
     [182] = {853}, -- Felwood
     [121] = {849}, -- Feralas
     [800] = { -- Firelands
-        5802, 5828, 5855,
-        heroic = {5803},
+        5802, 5828, 5855, 5821, 5810, 5813, 5829, 5830, 5799, 5855,
+        heroic = {5803, 5807, 5808, 5806, 5809, 5805, 5804},
     },
     [875] = { -- Gate of the Setting Sun
         6945,
-        heroic = {6759, 6479, 6476},
+        heroic = {6759, 6479, 6476, 6715},
     },
     [463] = {858}, -- Ghostlands
     [611] = {}, -- Gilneas City
@@ -458,7 +465,7 @@ zones = {
     [929] = {}, -- Isle of Giants
     [499] = {868}, -- Isle of Quel'Danas
     [928] = {8121, 8101, 8104, 8105, 8106, 8107, 8108, 8110, 8111, 8112, 8114, 8115, 8116, 8117, 8118, 8119, 8120, 8212}, -- Isle of Thunder
-    [799] = {690}, -- Karazhan
+    [799] = {690, 8293}, -- Karazhan
     [610] = {4825, 4975, 5452, is_alliance and 5318 or 5319}, -- Kelp'thar Forest
     [605] = {}, -- Kezan
     [857] = {6975, 6547, 7518, is_alliance and 7928 or 7929, 7287}, -- Krasarang Wilds
@@ -480,20 +487,21 @@ zones = {
     [750] = {640}, -- Maraudon
     [885] = { -- Mogu'shan Palace
         6755,
-        heroic = {6478, 6756, 6713, 6736},
+        heroic = {6478, 6756, 6713, 6736, 6715},
     },
     [896] = { -- Mogu'shan Vaults
         6458, 6844,
         normal = {6674, 6687, 6823, 6455, 7056, 6686},
         heroic = {6723, 6720, 6722, 6721, 6719, 6724},
     },
-    [696] = {686}, -- Molten Core
+    [696] = {686, 7934}, -- Molten Core
     [795] = {5859, 5866, 5867, 5870, 5871, 5872, 5873, 5874, 5879}, -- Molten Front
     [241] = {855}, -- Moonglade
     [683] = {4863, 4959, 5483, 5859, 5860, 5861, 5862, 5864, 5865, 5868, 5869}, -- Mount Hyjal
     [9] = {736}, -- Mulgore
     [477] = {866, 939, 1576}, -- Nagrand
     [535] = { -- Naxxramas
+        7934,
         size10 = {2146, 576, 578, 572, 1856, 2176, 2178, 2180, 568, 1996, 1997, 1858, 564, 2182, 2184, 566, 574, 562},
         size25 = {579, 565, 577, 575, 2177, 563, 567, 1857, 569, 573, 1859, 2139, 2181, 2183, 2185, 2147, 2140, 2179},
         unavailable = {2186, 2187},
@@ -535,18 +543,18 @@ zones = {
     },
     [898] = { -- Scholomance
         645,
-        heroic = {6762, 6531, 6394, 6396, 6821},
+        heroic = {6762, 6531, 6394, 6396, 6821, 6715},
     },
     [763] = {}, -- ScholomanceOLD
     [28] = {774}, -- Searing Gorge
-    [780] = {694}, -- Serpentshrine Cavern
+    [780] = {694, 8293}, -- Serpentshrine Cavern
     [723] = { -- Sethekk Halls
         653,
         heroic = {674},
     },
     [877] = { -- Shado-Pan Monastery
         6469,
-        heroic = {6470, 6471, 6477, 6472},
+        heroic = {6470, 6471, 6477, 6472, 6715},
     },
     [724] = { -- Shadow Labyrinth
         654,
@@ -564,7 +572,7 @@ zones = {
     [905] = {}, -- Shrine of Seven Stars
     [903] = {}, -- Shrine of Two Moons
     [887] = { -- Siege of Niuzao Temple
-        heroic = {6763, 6485, 6822, 6688},
+        heroic = {6763, 6485, 6822, 6688, 6715},
     },
     [261] = {856}, -- Silithus
     [480] = {6621}, -- Silvermoon City
@@ -574,7 +582,7 @@ zones = {
     [81] = {847}, -- Stonetalon Mountains
     [876] = { -- Stormstout Brewery
         6457, 6400, 6402,
-        heroic = {6456, 6420, 6089},
+        heroic = {6456, 6420, 6089, 6715},
     },
     [301] = {6584}, -- Stormwind City
     [512] = {2194}, -- Strand of the Ancients
@@ -585,11 +593,11 @@ zones = {
     [38] = {782}, -- Swamp of Sorrows
     [161] = {851, 4827}, -- Tanaris
     [41] = {842}, -- Teldrassil
-    [782] = {696}, -- Tempest Keep
+    [782] = {696, 8293}, -- Tempest Keep
     [881] = {6981}, -- Temple of Kotmogu
     [867] = { -- Temple of the Jade Serpent
         6757,
-        heroic = {6758, 6475, 6460, 6671},
+        heroic = {6758, 6475, 6460, 6671, 6715},
     },
     [478] = {867, 1275}, -- Terokkar Forest
     [886] = { -- Terrace of Endless Spring
@@ -601,7 +609,10 @@ zones = {
         660,
         heroic = {681},
     },
-    [758] = {}, -- The Bastion of Twilight
+    [758] = {
+        4850, 5300, 4852, 5311, 5312,
+        heroic = {5118, 5117, 5119, 5120, 5121},
+    }, -- The Bastion of Twilight
     [677] = {5258}, -- The Battle for Gilneas (Old City Map)
     [736] = {5258}, -- The Battle for Gilneas
     [733] = { -- The Black Morass
@@ -696,7 +707,10 @@ zones = {
     },
     [808] = {}, -- The Wandering Isle
     [61] = {846, 4827}, -- Thousand Needles
-    [773] = {}, -- Throne of the Four Winds
+    [773] = { -- Throne of the Four Winds
+        4851, 5304, 5305,
+        heroic = {5122, 5123, },
+    },
     [767] = { -- Throne of the Tides
         4839,
         heroic = {5061, 5285, 5286},
