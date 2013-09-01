@@ -44,7 +44,6 @@ end
 
 do
     local frame
-    local BUTTON_HEIGHT = 48
     local function GetTooltipAnchor(frame)
         local x, y = frame:GetCenter()
 
@@ -55,8 +54,14 @@ do
         local hhalf = (x > _G.UIParent:GetWidth() * 2 / 3) and "RIGHT" or (x < _G.UIParent:GetWidth() / 3) and "LEFT" or ""
         return vhalf .. hhalf, frame, (vhalf == "TOP" and "BOTTOM" or "TOP") .. (hhalf == "RIGHT" and "LEFT" or "RIGHT")
     end
-    local function button_click(self)
+    local function button_click(self, button, down)
+        if IsModifiedClick() then
+            return AchievementButton_OnClick(self, button, down)
+        end
         WatchFrame_OpenAchievementFrame(self, self.id)
+
+        -- todo: Use HybridScroll_ExpandButton to do display of criteria onclick
+        -- (can't mooch off the core functions, since they're deeply intertwined)
     end
     function mod:CreateFrame()
         if not frame then
@@ -65,8 +70,8 @@ do
             end
 
             frame = CreateFrame("Frame", "HIDTSuggestionsBox", UIParent, "BasicFrameTemplate")
-            frame:SetHeight(400)
-            frame:SetWidth(500)
+            frame:SetHeight(490)
+            frame:SetWidth(530)
             frame:SetPoint("CENTER")
             frame:SetMovable(true)
             frame:SetClampedToScreen(true)
@@ -97,43 +102,27 @@ do
             scroll_bar.doNotHide = true
 
             scroll_frame.scrollBar = scroll_bar
-            scroll_frame.buttonHeight = math.floor(BUTTON_HEIGHT + .5)
 
-            local scroll_child = scroll_frame.scrollChild
-            local num_buttons = math.ceil(frame:GetHeight() / BUTTON_HEIGHT) + 1
-            local buttons = {}
-            for i=1, num_buttons do
-                -- local button = CreateFrame("Button", "$parentButton"..i, scroll_child)
-                local button = CreateFrame("Button", "$parentButton"..i, scroll_child, "SummaryAchievementTemplate")
-                button.isSummary = true
-                AchievementFrameSummary_LocalizeButton(button)
-                -- the onload of this template adds us to a cache... let's take care of that...
-                tremove(AchievementFrameSummaryAchievements.buttons)
+            HybridScrollFrame_CreateButtons(scroll_frame, "AchievementTemplate", 0, 0);
+            for i, button in ipairs(scroll_frame.buttons) do
+                button:SetWidth(496)
                 button:SetScript("OnClick", button_click)
-
-                if i == 1 then
-                    button:SetPoint("TOPLEFT", scroll_child, "TOPLEFT", 0, 0)
-                    button:SetPoint("TOPRIGHT", scroll_child, "TOPRIGHT", 0, 0)
-                else
-                    button:SetPoint("TOPLEFT", buttons[i - 1], "BOTTOMLEFT", 0, 3)
-                    button:SetPoint("TOPRIGHT", buttons[i - 1], "BOTTOMRIGHT", 0, 3)
-                end
-
                 button.id_text = button.icon:CreateFontString(nil, "OVERLAY", "GameFontNormalSmall")
-                button.id_text:SetPoint("BOTTOM", button.icon, "BOTTOM", 0, 10)
-
-                tinsert(buttons, button)
+                button.id_text:SetPoint("BOTTOM", button.icon, "BOTTOM")
             end
-            scroll_frame.buttons = buttons
 
-            scroll_child:SetWidth(scroll_frame:GetWidth())
-            scroll_child:SetHeight(num_buttons * BUTTON_HEIGHT)
-            scroll_frame:SetVerticalScroll(0)
-            scroll_frame:UpdateScrollChildRect()
-
-            scroll_bar:SetMinMaxValues(0, num_buttons * BUTTON_HEIGHT)
-            scroll_bar:SetValueStep(.005)
-            scroll_bar:SetValue(0)
+            -- compact:
+            -- HybridScrollFrame_CreateButtons(scroll_frame, "SummaryAchievementTemplate", 0, -4);
+            -- for i, button in ipairs(scroll_frame.buttons) do
+            --     button:SetWidth(496)
+            --     button.isSummary = true
+            --     AchievementFrameSummary_LocalizeButton(button)
+            --     button:SetScript("OnClick", button_click)
+            --     button.id_text = button.icon:CreateFontString(nil, "OVERLAY", "GameFontNormalSmall")
+            --     button.id_text:SetPoint("BOTTOM", button.icon, "BOTTOM", 0, 10)
+            --     -- the onload of this template adds us to a cache... let's take care of that...
+            --     tremove(AchievementFrameSummaryAchievements.buttons)
+            -- end
 
             tinsert(UISpecialFrames, frame:GetName())
         end
@@ -223,56 +212,9 @@ function mod:UpdateSuggestions(frame, zoneid, size, variant)
         local offset_i = offset + i
 
         if offset_i <= num_items then
-            -- This is pretty solidly copied from the default UI achievement frame
-            local id, name, points, completed, month, day, year, description, flags, icon, rewardText, isGuild, wasEarnedByMe, earnedBy = GetAchievementInfo(to_suggest[offset_i])
-            local saturatedStyle
-            if bit.band(flags, ACHIEVEMENT_FLAGS_ACCOUNT) == ACHIEVEMENT_FLAGS_ACCOUNT then
-                button.accountWide = true
-                saturatedStyle = "account"
-            else
-                button.accountWide = nil
-                saturatedStyle = "normal"
-            end
-
-            button.label:SetText(name)
-            button.description:SetText(description)
-            AchievementShield_SetPoints(points, button.shield.points, GameFontNormal, GameFontNormalSmall)
-            if points > 0 then
-                button.shield.icon:SetTexture([[Interface\AchievementFrame\UI-Achievement-Shields]])
-            else
-                button.shield.icon:SetTexture([[Interface\AchievementFrame\UI-Achievement-Shields-NoPoints]])
-            end
-
-            button.shield.wasEarnedByMe = not (completed and not wasEarnedByMe)
-            button.shield.earnedBy = earnedBy
-
-            button.icon.texture:SetTexture(icon)
-            button.id = id
-
-            if core.db.id then
-                button.id_text:SetText(id)
-                button.id_text:Show()
-            else
-                button.id_text:Hide()
-            end
-
-            if completed then
-                button.completed = true
-                button.dateCompleted:SetText(string.format(SHORTDATE, day, month, year))
-                button.dateCompleted:Show()
-                if button.saturatedStyle ~= saturatedStyle then
-                    button:Saturate()
-                end
-            else
-                button.completed = false
-                button.dateCompleted:SetText("")
-                button.dateCompleted:Hide()
-                button:Desaturate()
-            end
-            
-            button.tooltipTitle = nil
-
-            button:Show()
+            AchievementButton_DisplayAchievement(button, to_suggest[offset_i])
+            -- we passed this in without specifying the selection, because that's tied deep into other achievement stuff
+            button.plusMinus:Hide()
         else
             button:Hide()
         end
