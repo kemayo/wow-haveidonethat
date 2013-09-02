@@ -33,7 +33,9 @@ function mod:OnShow(tooltip)
                     local _, a_name, _, complete = GetAchievementInfo(achievementid)
                     if core.db.done_achievements or not complete then
                         local desc, _, done = GetAchievementCriteriaInfoByID(achievementid, criteriaid)
-                        self:AddTooltipLine(tooltip, done, a_name, NEED, DONE)
+                        if core.db.done_criteria or not done then
+                            self:AddTooltipLine(tooltip, done, a_name, NEED, DONE)
+                        end
                     end
                 end
             end

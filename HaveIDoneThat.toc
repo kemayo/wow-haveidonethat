@@ -34,5 +34,6 @@ mobs.lua
 items.lua
 objects.lua
 players.lua
+skills.lua
 
 suggest.lua
