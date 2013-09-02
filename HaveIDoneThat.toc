@@ -11,19 +11,20 @@
 ## SavedVariablesPerCharacter: HaveIDoneThatDBPC
 
 ## OptionalDeps: tekDebug, tekErr
+## X-Embeds: LibStub, CallbackHandler-1.0, LibDataBroker-1.1, tekKonfig
 ## LoadManagers: AddonLoader
 ## X-LoadOn-Always: delayed
 ## X-LoadOn-Slash: /haveidonethat
 
-#@no-lib-strip@
 lib\LibStub\LibStub.lua
-#@end-no-lib-strip@
+lib\CallbackHandler-1.0\CallbackHandler-1.0.xml
+lib\LibDataBroker-1.1\LibDataBroker-1.1.lua
+lib\tekKonfig\tekKonfig.xml
 
 template\Database.lua
 template\UtilityFunctions.lua
 template\EventDispatcher.lua
 template\Module.lua
-lib\tekKonfig\tekKonfig.xml
 
 # the core
 core.lua
