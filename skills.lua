@@ -8,6 +8,7 @@ local skills = {
         [1779] = false, -- The Northrend Gourmet
         [5473] = false, -- The Cataclysmic Gourmet
         [7327] = false, -- The Pandaren Gourmet
+        [1780] = false, -- Second That Emotion
     },
 }
 
@@ -32,25 +33,52 @@ function mod:Hooks()
 end
 
 local icon_cache = {}
-function mod:GetIconForTradeSkillLine(button, needed)
+local function button_onenter(self)
+    local icon = icon_cache[self]
+    if not (icon and icon.name and icon:IsVisible()) then
+        return
+    end
+    local skill = GetTradeSkillLine()
+    if not (skill and skills[skill]) then
+        return
+    end
+    GameTooltip:SetOwner(self, "ANCHOR_NONE")
+    GameTooltip:SetPoint("TOPLEFT", self, "TOPRIGHT")
+    GameTooltip:AddLine(SUMMARY_ACHIEVEMENT_INCOMPLETE)
+    for achievementid, recipes in pairs(skills[skill]) do
+        if recipes[icon.name] then
+            local _, name = GetAchievementInfo(achievementid)
+            GameTooltip:AddLine(name)
+        end
+    end
+    GameTooltip:Show()
+end
+local function button_onleave(self)
+    GameTooltip:Hide()
+end
+function mod:GetIconForTradeSkillLine(button, name)
     if not button then
         return
     end
     local icon = icon_cache[button]
     if not icon then
         icon = button:CreateTexture()
-        -- icon:SetTexture([[Interface\COMMON\UI-DropDownRadioChecks]])
         icon:SetTexture([[Interface\ACHIEVEMENTFRAME\UI-Achievement-TinyShield]])
         icon:SetWidth(20)
         icon:SetHeight(20)
         icon:SetPoint("LEFT", button, 5, -4)
         icon_cache[button] = icon
+
+        button:HookScript("OnEnter", button_onenter)
+        button:HookScript("OnLeave", button_onleave)
     end
+    icon.name = name
     icon:Show()
 end
 
 function mod:TradeSkillFrame_Update()
     for button, icon in pairs(icon_cache) do
+        icon.name = nil
         icon:Hide()
     end
 
@@ -71,7 +99,7 @@ function mod:TradeSkillFrame_Update()
                 if core.db.done_achievements or not achievement_done then
                     if --[[ core.db.done_criteria or --]] not criteria_done then
                         local button = _G["TradeSkillSkill" .. (filter and (i + 1) or i)]
-                        self:GetIconForTradeSkillLine(button, criteria_done)
+                        self:GetIconForTradeSkillLine(button, name)
                     end
                 end
             end
