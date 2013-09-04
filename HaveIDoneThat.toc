@@ -28,7 +28,6 @@ template\Module.lua
 
 # the core
 core.lua
-config.lua
 
 mobs.lua
 items.lua
@@ -36,4 +35,7 @@ objects.lua
 players.lua
 skills.lua
 
+compare.lua
 suggest.lua
+
+config.lua
