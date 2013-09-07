@@ -94,7 +94,7 @@ function mod:TradeSkillFrame_Update()
     for i=1, num_skills do
         local name, type = GetTradeSkillInfo(i + offset)
         if name and type ~= "header" then
-            local achievementid, achievement_done, criteria_done = self:CheckRecipe(skill, name)
+            local achievementid, criteriaid, achievement_done, criteria_done = self:CheckRecipe(skill, name)
             if achievementid then
                 if core.db.done_achievements or not achievement_done then
                     if --[[ core.db.done_criteria or --]] not criteria_done then
