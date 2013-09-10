@@ -1069,7 +1069,10 @@ zones = {
     [748] = {4865, 5317, 4888, 4961}, -- Uldum
     [201] = {854}, -- Un'Goro Crater
     [382] = {6621}, -- Undercity
-    [811] = {6979, 6546, 7317, 7318, 7319, 7322, 7323, 7324}, -- Vale of Eternal Blossoms
+    [811] = { -- Vale of Eternal Blossoms
+        6979, 6546, 7317, 7318, 7319, 7322, 7323, 7324,
+        unavailable = {7315},
+    },
     [807] = {6969, 6544, 6551, 7292, 7293, 7294, 7295, 7325, 7502, 6517, 7296}, -- Valley of the Four Winds
     [889] = {}, -- Valley of Trials
     [613] = {4825, 4975, 5452, is_alliance and 5318 or 5319}, -- Vashj'ir
@@ -1154,7 +1157,6 @@ quests = {
     [810] = 6539, -- Townlong Steppes
     [748] = 4872, -- Uldum
     [201] = 4939, -- Un'Goro Crater
-    [811] = 7315, -- Vale of Eternal Blossoms
     [807] = 6301, -- Valley of the Four Winds
     [22] = 4893, -- Western Plaguelands
     [281] = 4940, -- Winterspring
