@@ -14,6 +14,7 @@ local achievements = {
     [7439] = false, -- Glorious! (Pandaria mobs)
     [8103] = false, -- Champions of Lei Shen (Thunder Isle)
     [8714] = false, -- Timeless Champion (Timeless Isle)
+    [8712] = false, -- Killing Time (non-rares on the Timeless Isle)
     -- splatto
     [2556] = false, -- Pest Control
     -- looooove

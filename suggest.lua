@@ -490,7 +490,7 @@ scenarios = {
         heroic = {8312},
     },
     [884] = {6923, 6931, 6930, }, -- Brewmoon Festival
-    [955] = {}, -- Celestial Tournament
+    [955] = {8410, 8518}, -- Celestial Tournament
     [900] = { -- Crypt of Forgotten Kings
         7522, 7276, 7275, 8368,
         heroic = {8311},
@@ -1060,6 +1060,7 @@ zones = {
     [808] = {}, -- The Wandering Isle
     [61] = {846, 4827}, -- Thousand Needles
     [362] = {6621}, -- Thunder Bluff
+    [951] = {8725, 8726, 8728, 8712, 8714, 8715, 8723, 8724, 8730, 8722, 8729, 8727, 8743, 8519, 8716, 8717, 8718, 8719, 8720, 8721, 8535, 8533}, -- Timeless Isle
     [20] = {768}, -- Tirisfal Glades
     [709] = {is_alliance and 5718 or 5719}, -- Tol Barad Peninsula
     [708] = {4874, is_alliance and 5489 or 5490, is_alliance and 5718 or 5719}, -- Tol Barad
