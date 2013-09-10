@@ -16,7 +16,7 @@
 ## X-LoadOn-Always: delayed
 ## X-LoadOn-Slash: /haveidonethat
 
-lib\LibStub\LibStub.lua
+lib\LibStub.lua
 lib\CallbackHandler-1.0\CallbackHandler-1.0.xml
 lib\LibDataBroker-1.1\LibDataBroker-1.1.lua
 lib\tekKonfig\tekKonfig.xml

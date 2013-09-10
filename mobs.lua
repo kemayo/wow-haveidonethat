@@ -52,6 +52,7 @@ local achievements = {
         [19514] = 23330, -- phoenix
     },
 }
+
 local achievement_settings = {
     default = { need = NEED, done = ACTION_PARTY_KILL, },
     [2556] = { name = true, }, -- pest control

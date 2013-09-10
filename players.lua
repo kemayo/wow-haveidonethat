@@ -1,5 +1,5 @@
 local myname, ns = ...
-local mod = ns:NewModule("mobs")
+local mod = ns:NewModule("players")
 local core = ns:GetModule("core")
 
 local achievements = {
