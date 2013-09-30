@@ -54,4 +54,7 @@ achievements = {
     [5478] = false, -- The Limnologist
     [5479] = false, -- The Oceanographer
     [7611] = false, -- Pandarian Angler
+    -- timeless
+    [8722] = false, -- Timeless Nutriment
+    [8725] = false, -- Eyes on the Ground
 }
