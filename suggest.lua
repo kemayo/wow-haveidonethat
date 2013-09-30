@@ -572,6 +572,17 @@ raids = {
     },
     [717] = {689}, -- Ruins of Ahn'Qiraj
     [780] = {694, 8293}, -- Serpentshrine Cavern
+    [953] = { -- Siege of Orgrimmar
+        8458, 8459, 8461, 8462,
+        normal = {
+            8679, -- completion
+            9454, -- challenges meta
+            8536, 8528, 8532, 8521, 8530, 8520, 8453, 8448, 8538, 8543, 8529, 8527, 8531, 8537,
+        },
+        heroic = {
+            8463, 8465, 8466, 8467, 8468, 8469, 8470, 8471, 8472, 8478, 8479, 8480, 8481, 8482,
+        },
+    },
     [789] = {698}, -- Sunwell Plateau
     [782] = {696, 8293}, -- Tempest Keep
     [886] = { -- Terrace of Endless Spring
