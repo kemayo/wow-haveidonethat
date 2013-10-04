@@ -24,6 +24,7 @@ local achievements = {
     [6350] = false, -- To All the Squirrels I Once Caressed?
     -- general tag-em quests
     [7316] = false, -- Over Their Heads
+    [7317] = false, -- One Man Army
     -- pets
     [7934] = { -- raiding with leashes
         [15263] = 22468, -- mindslayer
