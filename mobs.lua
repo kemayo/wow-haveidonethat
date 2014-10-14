@@ -112,16 +112,16 @@ end
 
 do
     local valid_unit_types = {
-        [0x003] = true, -- npcs
-        [0x005] = true, -- vehicles
+        Creature = true, -- npcs
+        Vehicle = true, -- vehicles
     }
     local function npc_id_from_guid(guid)
         if not guid then return end
-        local unit_type = bit.band(tonumber("0x"..strsub(guid, 3, 5)), 0x00f)
-        if not valid_unit_types[unit_type] then
+        local unit_type, id = guid:match("(%a+):%d+:%d+:%d+:%d+:(%d+):.+")
+        if not (unit_type and valid_unit_types[unit_type]) then
             return
         end
-        return tonumber("0x"..strsub(guid, 6, 10))
+        return tonumber(id)
     end
     function mod:UnitID(unit)
         return npc_id_from_guid(UnitGUID(unit))

@@ -9,7 +9,7 @@ function mod:OnLoad()
     self:HookScript(ItemRefTooltip, "OnTooltipSetItem")
     self:HookScript(ShoppingTooltip1, "OnTooltipSetItem")
     self:HookScript(ShoppingTooltip2, "OnTooltipSetItem")
-    self:HookScript(ShoppingTooltip3, "OnTooltipSetItem")
+    -- self:HookScript(ShoppingTooltip3, "OnTooltipSetItem")
 end
 
 function mod:OnTooltipSetItem(tooltip)
