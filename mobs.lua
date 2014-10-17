@@ -79,6 +79,7 @@ end
 
 -- This is split out entirely so I can test this without having to actually hunt down a relevant mob
 function mod:UpdateMobTooltip(id, unit_name)
+    core.Debug("UpdateMobTooltip", id, unit_name)
     if not id then
         return
     end
@@ -117,7 +118,7 @@ do
     }
     local function npc_id_from_guid(guid)
         if not guid then return end
-        local unit_type, id = guid:match("(%a+):%d+:%d+:%d+:%d+:(%d+):.+")
+        local unit_type, id = guid:match("(%a+)-%d+-%d+-%d+-%d+-(%d+)-.+")
         if not (unit_type and valid_unit_types[unit_type]) then
             return
         end
