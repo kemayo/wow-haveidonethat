@@ -246,6 +246,7 @@ do
         for i = 1, #buttons do
             local button = buttons[i]
             local offset_i = offset + i
+            button.id = nil
 
             if offset_i <= num_items then
                 AchievementButton_DisplayAchievement(button, to_suggest[offset_i])
