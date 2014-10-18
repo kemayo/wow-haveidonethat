@@ -164,7 +164,7 @@ do
         if IsModifiedClick() then
             return AchievementButton_OnClick(self, button, down)
         end
-        WatchFrame_OpenAchievementFrame(self, self.id)
+        AchievementFrame_SelectAchievement(self.id)
 
         -- todo: Use HybridScroll_ExpandButton to do display of criteria onclick
         -- (can't mooch off the core functions, since they're deeply intertwined)
