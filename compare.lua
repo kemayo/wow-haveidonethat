@@ -21,7 +21,7 @@ function mod:OnLoad()
     end
 end
 
-local player_guid = strsub(UnitGUID("player"), 3)
+local player_guid
 function mod.OnSetHyperlink(tooltip, link)
     if not link then
         return
@@ -32,6 +32,9 @@ function mod.OnSetHyperlink(tooltip, link)
     end
     id = tonumber(id)
     if mod.db.tooltip then
+        if not player_guid then
+            player_guid = strsub(UnitGUID("player"), 3)
+        end
         if id and guid ~= player_guid then
             mod:AddProgressToTooltip(tooltip, id)
         end
