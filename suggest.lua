@@ -600,6 +600,7 @@ raids = {
     },
     [531] = { -- The Obsidian Sanctum
         size10 = {1876, 2047, 2049, 2050, 2051, 624},
+        size25 = {625, 2048, 2052, 2053, 2054, 1877},
     },
     [609] = { -- The Ruby Sanctum
         size10 = {
