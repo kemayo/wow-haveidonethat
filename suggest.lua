@@ -201,6 +201,18 @@ do
         return accumulate
     end
 
+    --fix terrain phased zones with multiple IDs
+    local zone_overrides = {
+        [683] = 606, -- hyjal_terrain1
+        [748] = 720, -- uldum_terrain1
+        [770] = 700, -- twilight highlands
+        [905] = 811, -- vale of eternal blossoms
+        [903] = 811, -- vale of eternal blossoms
+    }
+    function GetCanonicalZoneID(zoneid)
+        return zone_overrides[zoneid] or zoneid
+    end
+
     local function get_achievements_by_zoneid(zoneid)
         return zones[zoneid] or scenarios[zoneid] or dungeons[zoneid] or raids[zoneid] or battlegrounds[zoneid]
     end
@@ -208,7 +220,7 @@ do
     function update_achievements()
         wipe(to_suggest)
         if frame.suggest_type == "smart" then
-            zoneid = GetCurrentMapAreaID()
+            zoneid = GetCanonicalZoneID(GetCurrentMapAreaID())
             local suggestions = get_achievements_by_zoneid(zoneid)
             local instance_type, size, variant = mod:WorkOutInstanceType()
 
@@ -1025,7 +1037,7 @@ zones = {
     [35] = {779, 4827}, -- Loch Modan
     [795] = {5859, 5866, 5867, 5870, 5871, 5872, 5873, 5874, 5879}, -- Molten Front
     [241] = {855}, -- Moonglade
-    [683] = {4863, 4959, 5483, 5859, 5860, 5861, 5862, 5864, 5865, 5868, 5869}, -- Mount Hyjal
+    [606] = {4863, 4959, 5483, 5859, 5860, 5861, 5862, 5864, 5865, 5868, 5869}, -- Mount Hyjal
     [9] = {736}, -- Mulgore
     [477] = {866, 939, 1576}, -- Nagrand
     [479] = {843, 545}, -- Netherstorm
@@ -1079,8 +1091,8 @@ zones = {
     [709] = {is_alliance and 5718 or 5719}, -- Tol Barad Peninsula
     [708] = {4874, is_alliance and 5489 or 5490, is_alliance and 5718 or 5719}, -- Tol Barad
     [810] = {6977, 7299, 7298, 7307, 7308, 7309, 7288}, -- Townlong Steppes
-    [770] = {4866, 5451, 4960, 4958}, -- Twilight Highlands
-    [748] = {4865, 5317, 4888, 4961}, -- Uldum
+    [700] = {4866, 5451, 4960, 4958}, -- Twilight Highlands
+    [720] = {4865, 5317, 4888, 4961}, -- Uldum
     [201] = {854}, -- Un'Goro Crater
     [382] = {6621}, -- Undercity
     [811] = { -- Vale of Eternal Blossoms
@@ -1102,7 +1114,7 @@ if is_alliance then
     tinsert(zones[490], 2016) -- Grizzly Hills
     tinsert(zones[501], 1737) -- Wintergrasp
     tinsert(zones[281], 3356) -- Winterspring
-    extend(zones[770], {5320, 5481}) -- Twilight Highlands
+    extend(zones[700], {5320, 5481}) -- Twilight Highlands
     tinsert(zones[42], 5453) -- Darkshore
     extend(zones[301], {388, 545}) -- Stormwind City
     tinsert(zones[381], 388) -- Darnassus
@@ -1123,7 +1135,7 @@ if is_horde then
     tinsert(zones[181], 5454) -- Azshara
     tinsert(zones[490], 2017) -- Grizzly Hills
     tinsert(zones[501], 2476) -- Wintergrasp
-    extend(zones[770], {5482, 5321}) -- Twilight Highlands
+    extend(zones[700], {5482, 5321}) -- Twilight Highlands
     extend(zones[321], {1006, 545}) -- Orgrimmar
     tinsert(zones[362], 1006) -- Thunder Bluff
     extend(zones[382], {1006, 545}) -- Undercity
@@ -1155,7 +1167,7 @@ quests = {
     [182] = 4931, -- Felwood
     [492] = 40, -- Icecrown
     [928] = 8099, -- Isle of Thunder
-    [683] = 4870, -- Mount Hyjal
+    [606] = 4870, -- Mount Hyjal
     [479] = 1194, -- Netherstorm
     [37] = 4906, -- Northern Stranglethorn
     [28] = 4910, -- Searing Gorge
@@ -1169,7 +1181,7 @@ quests = {
     [495] = 38, -- The Storm Peaks
     [61] = 4938, -- Thousand Needles
     [810] = 6539, -- Townlong Steppes
-    [748] = 4872, -- Uldum
+    [720] = 4872, -- Uldum
     [201] = 4939, -- Un'Goro Crater
     [807] = 6301, -- Valley of the Four Winds
     [22] = 4893, -- Western Plaguelands
@@ -1201,7 +1213,7 @@ if is_alliance then
     quests[615] = 4869 -- Shimmering Expanse
     quests[607] = 4937 -- Southern Barrens
     quests[478] = 1191 -- Terokkar Forest
-    quests[770] = 4873 -- Twilight Highlands
+    quests[700] = 4873 -- Twilight Highlands
     quests[613] = 4869 -- Vashj'ir
     quests[39] = 4903 -- Westfall
     quests[40] = 4899 -- Wetlands
@@ -1231,7 +1243,7 @@ if is_horde then
     quests[607] = 4981 -- Southern Barrens
     quests[81] = 4980 -- Stonetalon Mountains
     quests[478] = 1272 -- Terokkar Forest
-    quests[770] = 5501 -- Twilight Highlands
+    quests[700] = 5501 -- Twilight Highlands
     quests[613] = 4982 -- Vashj'ir
 end
 
