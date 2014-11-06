@@ -86,6 +86,7 @@ achievements = {
     [5754] = false, -- drown your sorrows
     [7329] = false, -- pandaren cuisine
     [7330] = false, -- pandaren delicacies
+    [9502] = false, -- draenor cuisine
     [5755] = { -- tabards
         [5976] = 2340,
         [11364] = 2922,
