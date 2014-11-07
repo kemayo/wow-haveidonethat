@@ -23,6 +23,7 @@ local achievements = {
     [9638] = false, -- Heralds of the Legion (Shattrath)
     [9655] = false, -- Fight the Power (Gorgrond)
     [9678] = false, -- Ancient No More (Gorgrond)
+    [9216] = false, -- High-value targets (Ashran)
     -- splatto
     [2556] = false, -- Pest Control
     -- looooove

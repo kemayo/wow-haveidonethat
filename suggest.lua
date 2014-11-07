@@ -1109,6 +1109,21 @@ zones = {
     [281] = {857, 5443}, -- Winterspring
     [467] = {863, 893}, -- Zangarmarsh
     [496] = {1267, 1576, 1596}, -- Zul'Drak
+    -- Draenor:
+    [978] = {9102, 9105, 9106, 9216, 9218, 9219, 9220, 9222, 9228}, -- Ashran
+    [941] = {8937, 9533, 9534, 9537, 9536, 9535, 9710, 9711}, -- Frostfire Ridge
+    [949] = {}, -- Gorgrond
+    [950] = {}, -- Nagrand
+    [947] = {9433, 9434, 9432, 9436, 9435, 9437, 9483, 9479, 9481}, -- Shadowmoon Valley
+    [948] = {}, -- Spires of Arak
+    [946] = {}, -- Talador
+    [945] = {}, -- Tanaan Jungle
+    -- Draenor garrisons:
+    [976] = {}, -- Frostwall (Horde)
+    [971] = {}, -- Lunarfall (Alliance)
+    -- Draenor capitals:
+    [1009] = {}, -- Stormshield
+    [1011] = {}, -- Warspear
 }
 if is_alliance then
     tinsert(zones[490], 2016) -- Grizzly Hills
@@ -1125,6 +1140,9 @@ if is_alliance then
     tinsert(zones[382], {604, 612, 614}) -- Undercity
     tinsert(zones[480], {604, 613, 614}) -- Silvermoon City
     extend(zones[492], {3676, 2782}) -- Icecrown
+    extend(zones[978], {9104, 9214, 9225, 9256, 9408, 9714}) -- Ashran
+    extend(zones[941], {9530}) -- Frostfire
+    extend(zones[947], {8845, 9528, 9602}) -- Frostfire
     -- bgs
     tinsert(battlegrounds[401], 907) -- Alterac Valley
     tinsert(battlegrounds[461], 907) -- Arathi Basin
@@ -1145,6 +1163,8 @@ if is_horde then
     extend(zones[381], {603, 617, 619}) -- Darnassus
     extend(zones[471], {603, 618, 619}) -- Exodar
     extend(zones[492], {3677, 2788}) -- Icecrown
+    extend(zones[978], {9103, 9215, 9217, 9224, 9257, 9715}) -- Ashran
+    extend(zones[941], {8671, 9529, 9531, 9606}) -- Frostfire
     -- bgs
     tinsert(battlegrounds[401], 714) -- Alterac Valley
     tinsert(battlegrounds[461], 714) -- Arathi Basin
