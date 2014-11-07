@@ -15,6 +15,14 @@ local achievements = {
     [8103] = false, -- Champions of Lei Shen (Thunder Isle)
     [8714] = false, -- Timeless Champion (Timeless Isle)
     [8712] = false, -- Killing Time (non-rares on the Timeless Isle)
+    [9400] = false, -- Gorgrond Monster Hunter
+    [9541] = false, -- The Song of Silence
+    [9571] = false, -- Broke Back Precipice
+    [9617] = false, -- Making the Cut
+    [9633] = false, -- Cut off the Head (Shattrath)
+    [9638] = false, -- Heralds of the Legion (Shattrath)
+    [9655] = false, -- Fight the Power (Gorgrond)
+    [9678] = false, -- Ancient No More (Gorgrond)
     -- splatto
     [2556] = false, -- Pest Control
     -- looooove
