@@ -8,6 +8,7 @@ local skills = {
         [1779] = false, -- The Northrend Gourmet
         [5473] = false, -- The Cataclysmic Gourmet
         [7327] = false, -- The Pandaren Gourmet
+        [9501] = false, -- The Draenor Gourmet
         [1780] = false, -- Second That Emotion
     },
 }
