@@ -19,8 +19,12 @@ function mod:OnShow(tooltip)
         if nodes == false then
             nodes = {}
             for i=1, GetAchievementNumCriteria(achievementid) do
-                local desc, _, _, _, _, _, _, _, _, criteriaid = GetAchievementCriteriaInfo(achievementid, i)
-                if desc and criteriaid then
+                local desc, _, _, _, _, _, flags, assetid, _, criteriaid = GetAchievementCriteriaInfo(achievementid, i)
+                if desc == "" and assetid and bit.band(flags, 0x00000001) == 0x00000001 then
+                    desc = GetItemInfo(assetid)
+                    desc = desc:gsub("Enormous ", "")
+                end
+                if desc and desc ~= "" and criteriaid then
                     nodes[desc] = criteriaid
                     achievements[achievementid] = nodes
                 end
@@ -32,9 +36,13 @@ function mod:OnShow(tooltip)
                 if text:match(criteria) then
                     local _, a_name, _, complete = GetAchievementInfo(achievementid)
                     if core.db.done_achievements or not complete then
-                        local desc, _, done = GetAchievementCriteriaInfoByID(achievementid, criteriaid)
+                        local desc, _, done, _, _, _, flags, _, quantityString = GetAchievementCriteriaInfoByID(achievementid, criteriaid)
                         if core.db.done_criteria or not done then
-                            self:AddTooltipLine(tooltip, done, a_name, NEED, DONE)
+                            local need_text = NEED
+                            if bit.band(flags, 0x00000001) == 0x00000001 then
+                                need_text = quantityString
+                            end
+                            self:AddTooltipLine(tooltip, done, a_name, need_text, DONE)
                         end
                     end
                 end
@@ -57,4 +65,12 @@ achievements = {
     -- timeless
     [8722] = false, -- Timeless Nutriment
     [8725] = false, -- Eyes on the Ground
+    -- draenor angler
+    [9455] = false, -- Fire Ammonite
+    [9456] = false, -- Abyssal Gulper
+    [9457] = false, -- Blackwater Whiptail
+    [9458] = false, -- Blind Lake Sturgeon
+    [9459] = false, -- Fat Sleeper
+    [9460] = false, -- Jawless Skulker
+    [9461] = false, -- Sea Scorpion
 }
