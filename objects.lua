@@ -22,7 +22,7 @@ function mod:OnShow(tooltip)
                 local desc, _, _, _, _, _, flags, assetid, _, criteriaid = GetAchievementCriteriaInfo(achievementid, i)
                 if desc == "" and assetid and bit.band(flags, 0x00000001) == 0x00000001 then
                     desc = GetItemInfo(assetid)
-                    desc = desc:gsub("Enormous ", "")
+                    desc = desc and desc:gsub("Enormous ", "")
                 end
                 if desc and desc ~= "" and criteriaid then
                     nodes[desc] = criteriaid
