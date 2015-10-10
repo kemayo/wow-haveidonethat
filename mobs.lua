@@ -24,6 +24,8 @@ local achievements = {
     [9655] = false, -- Fight the Power (Gorgrond)
     [9678] = false, -- Ancient No More (Gorgrond)
     [9216] = false, -- High-value targets (Ashran)
+    [10061] = false, -- Hellbane (Tanaan)
+    [10070] = false, -- Jungle Stalker (Tanaan)
     -- splatto
     [2556] = false, -- Pest Control
     -- looooove
