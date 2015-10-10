@@ -78,6 +78,8 @@ local achievements = {
         [25166] = 27578, -- alythess: wretched servant
     },
 }
+mod.achievements = achievements
+-- /spew HIDT:GetModule("mobs").achievements[10070]
 
 local achievement_settings = {
     default = { need = NEED, done = ACTION_PARTY_KILL, },
@@ -103,6 +105,7 @@ function mod:UPDATE_MOUSEOVER_UNIT()
 end
 
 -- This is split out entirely so I can test this without having to actually hunt down a relevant mob
+-- /script HIDT:GetModule('mobs'):UpdateTooltip(51059, "name")
 function mod:UpdateMobTooltip(id, unit_name)
     core.Debug("UpdateMobTooltip", id, unit_name)
     if not id then
@@ -116,8 +119,8 @@ function mod:UpdateMobTooltip(id, unit_name)
                 mobs = {}
                 for i=1, GetAchievementNumCriteria(achievementid) do
                     local desc, _, _, _, _, _, _, id, _, criteriaid = GetAchievementCriteriaInfo(achievementid, i)
-                    mobs[id] = i
-                    mobs[desc] = i
+                    mobs[id] = criteriaid
+                    mobs[desc] = criteriaid
                     achievements[achievementid] = mobs
                 end
             end
