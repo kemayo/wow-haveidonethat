@@ -81,13 +81,13 @@ local achievements = {
 
 local achievement_settings = {
     default = { need = NEED, done = ACTION_PARTY_KILL, },
-    [2556] = { name = true, }, -- pest control
-    [1206] = { need = EMOTE152_CMD1, done = DONE, name = true, }, -- squirrels 1
-    [2557] = { need = EMOTE152_CMD1, done = DONE, name = true, }, -- squirrels 2
-    [5548] = { need = EMOTE152_CMD1, done = DONE, name = true, }, -- squirrels 3
-    [6350] = { need = EMOTE152_CMD1, done = DONE, name = true, }, -- squirrels 4
-    [7934] = { criteria_label = true, },
-    [8293] = { criteria_label = true, },
+    [1206] = { need = EMOTE152_CMD1, done = DONE, }, -- squirrels 1
+    [2557] = { need = EMOTE152_CMD1, done = DONE, }, -- squirrels 2
+    [5548] = { need = EMOTE152_CMD1, done = DONE, }, -- squirrels 3
+    [6350] = { need = EMOTE152_CMD1, done = DONE, }, -- squirrels 4
+    [7934] = { criteria_label = true, done = USED, }, -- leashes 1
+    [8293] = { criteria_label = true, done = USED, }, -- leashes 2
+    [9824] = { criteria_label = true, done = USED, }, -- leashes 3
 }
 do
     local achievements_meta = { __index = achievement_settings.default, }
@@ -124,16 +124,31 @@ function mod:UpdateMobTooltip(id, unit_name)
             if mobs[id] or mobs[unit_name] then
                 local _, name, _, complete = GetAchievementInfo(achievementid)
                 if core.db.done_achievements or not complete then
-                    local desc, _, done = GetAchievementCriteriaInfoByID(achievementid, mobs[id] or mobs[unit_name])
-                    if core.db.done_criteria or not done then
-                        self:AddTooltipLine(GameTooltip, done, settings.criteria_label and desc or name, settings.need, settings.done)
-                    end
+                    self:UpdateMobTooltipWithCriteria(settings, achievementid, mobs[id] or mobs[unit_name], name, false)
                 end
             end
         end
     end
 
     GameTooltip:Show()
+end
+
+function mod:UpdateMobTooltipWithCriteria(settings, achievementid, criteriaid, achievement_name, already_said_name)
+    if type(criteriaid) == "table" then
+        for i,v in ipairs(criteriaid) do
+            already_said_name = self:UpdateMobTooltipWithCriteria(settings, achievementid, v, achievement_name, already_said_name)
+        end
+        return already_said_name
+    end
+    local desc, _, done = GetAchievementCriteriaInfoByID(achievementid, criteriaid)
+    if core.db.done_criteria or not done then
+        if settings.criteria_label and not already_said_name then
+            already_said_name = true
+            GameTooltip:AddLine(achievement_name, 1, 1, 0)
+        end
+        self:AddTooltipLine(GameTooltip, done, settings.criteria_label and desc or achievement_name, settings.need, settings.done)
+    end
+    return already_said_name
 end
 
 do
