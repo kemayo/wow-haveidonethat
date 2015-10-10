@@ -36,28 +36,26 @@ function core:ADDON_LOADED(event, addon)
     self:UnregisterEvent("ADDON_LOADED")
 end
 
-do
-    function core:HookAchievementFrame()
-        hooksecurefunc("AchievementButton_DisplayAchievement", function(button, category, achievement, selectionID)
-            if not button:IsShown() then
-                return
-            end
-            if button.id_text then
-                button.id_text:Hide()
-            end
-            if not core.db.id then
-                return
-            end
-            -- local id, name, points, completed, month, day, year, description, flags, icon, rewardText, isGuild, wasEarnedByMe, earnedBy = GetAchievementInfo(category, achievement)
-            if not button.id_text then
-                button.id_text = button.icon:CreateFontString(nil, "OVERLAY", "GameFontNormalSmall")
-                button.id_text:SetPoint("BOTTOMLEFT", button.icon, "BOTTOMLEFT")
-                button.id_text:SetPoint("BOTTOMRIGHT", button.icon, "BOTTOMRIGHT")
-            end
-            button.id_text:Show()
-            button.id_text:SetText(button.id)
-        end)
-    end
+function core:HookAchievementFrame()
+    hooksecurefunc("AchievementButton_DisplayAchievement", function(button, category, achievement, selectionID)
+        if not button:IsShown() then
+            return
+        end
+        if button.id_text then
+            button.id_text:Hide()
+        end
+        if not core.db.id then
+            return
+        end
+        -- local id, name, points, completed, month, day, year, description, flags, icon, rewardText, isGuild, wasEarnedByMe, earnedBy = GetAchievementInfo(category, achievement)
+        if not button.id_text then
+            button.id_text = button.icon:CreateFontString(nil, "OVERLAY", "GameFontNormalSmall")
+            button.id_text:SetPoint("BOTTOMLEFT", button.icon, "BOTTOMLEFT")
+            button.id_text:SetPoint("BOTTOMRIGHT", button.icon, "BOTTOMRIGHT")
+        end
+        button.id_text:Show()
+        button.id_text:SetText(button.id)
+    end)
 end
 
 function core.OnSetHyperlink(tooltip, link)
