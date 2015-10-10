@@ -1112,12 +1112,12 @@ zones = {
     -- Draenor:
     [978] = {9102, 9105, 9106, 9216, 9218, 9219, 9220, 9222, 9228}, -- Ashran
     [941] = {8937, 9533, 9534, 9537, 9536, 9535, 9710, 9711}, -- Frostfire Ridge
-    [949] = {}, -- Gorgrond
-    [950] = {}, -- Nagrand
+    [949] = {9607}, -- Gorgrond
+    [950] = {9615}, -- Nagrand
     [947] = {9433, 9434, 9432, 9436, 9435, 9437, 9483, 9479, 9481}, -- Shadowmoon Valley
-    [948] = {}, -- Spires of Arak
-    [946] = {}, -- Talador
-    [945] = {}, -- Tanaan Jungle
+    [948] = {9605}, -- Spires of Arak
+    [946] = {9674}, -- Talador
+    [945] = {10261, 10259, 10069, 10061, 10071, 10052}, -- Tanaan Jungle
     -- Draenor garrisons:
     [976] = {}, -- Frostwall (Horde)
     [971] = {}, -- Lunarfall (Alliance)
@@ -1142,7 +1142,11 @@ if is_alliance then
     extend(zones[492], {3676, 2782}) -- Icecrown
     extend(zones[978], {9104, 9214, 9225, 9256, 9408, 9714}) -- Ashran
     extend(zones[941], {9530}) -- Frostfire
-    extend(zones[947], {8845, 9528, 9602}) -- Frostfire
+    tinsert(zones[946], 8920) -- Talador
+    extend(zones[947], {8845, 9528, 9602}) -- Shadowmoon
+    tinsert(zones[949], 8923) -- Gorgrond
+    extend(zones[945], {10067, 10068, 10072}) -- Tanaan
+    tinsert(zones[950], 8927) -- Nagrand
     -- bgs
     tinsert(battlegrounds[401], 907) -- Alterac Valley
     tinsert(battlegrounds[461], 907) -- Arathi Basin
@@ -1165,6 +1169,10 @@ if is_horde then
     extend(zones[492], {3677, 2788}) -- Icecrown
     extend(zones[978], {9103, 9215, 9217, 9224, 9257, 9715}) -- Ashran
     extend(zones[941], {8671, 9529, 9531, 9606}) -- Frostfire
+    tinsert(zones[946], 8919) -- Talador
+    tinsert(zones[949], 8924) -- Gorgrond
+    extend(zones[945], {10074, 10075, 10265}) -- Tanaan
+    tinsert(zones[950], 8928) -- Nagrand
     -- bgs
     tinsert(battlegrounds[401], 714) -- Alterac Valley
     tinsert(battlegrounds[461], 714) -- Arathi Basin
