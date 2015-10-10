@@ -108,11 +108,11 @@ function mod:UpdateMobTooltip(id, unit_name)
     end
 
     if core.db.achievements then
-        for achievementid,mobs in pairs(achievements) do
+        for achievementid, mobs in pairs(achievements) do
             local settings = achievement_settings[achievementid] or achievement_settings.default
             if mobs == false then
                 mobs = {}
-                for i=1,GetAchievementNumCriteria(achievementid) do
+                for i=1, GetAchievementNumCriteria(achievementid) do
                     local desc, _, _, _, _, _, _, id, _, criteriaid = GetAchievementCriteriaInfo(achievementid, i)
                     mobs[id] = i
                     mobs[desc] = i
@@ -122,7 +122,7 @@ function mod:UpdateMobTooltip(id, unit_name)
             if mobs[id] or mobs[unit_name] then
                 local _, name, _, complete = GetAchievementInfo(achievementid)
                 if core.db.done_achievements or not complete then
-                    local desc, _, done = GetAchievementCriteriaInfo(achievementid, mobs[id] or mobs[unit_name])
+                    local desc, _, done = GetAchievementCriteriaInfoByID(achievementid, mobs[id] or mobs[unit_name])
                     if core.db.done_criteria or not done then
                         self:AddTooltipLine(GameTooltip, done, settings.criteria_label and desc or name, settings.need, settings.done)
                     end
