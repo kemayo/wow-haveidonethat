@@ -61,6 +61,20 @@ local achievements = {
         [18805] = 23329, -- voidcaller
         [19514] = 23330, -- phoenix
     },
+    [9824] = {
+        [22856] = { 27571, 27572, 27570, }, -- reliquary: suffering, desire, anger
+        [22947] = 27573, -- shahraz: sister of temptation
+        [17808] = 27574, -- anetheron: stinkrot
+        [17968] = 27575, -- archimonde: wisp
+        [24882] = 27576, -- brutallus: sunblade micro defender
+        [17842] = 27567, -- azgalor: grotesque
+        [22887] = 27568, -- naj'entus: leviathan hatchling
+        [22898] = 27589, -- supremus: abyssius
+        [25741] = 27577, -- m'uru: chaos pup
+        [25840] = 27577, -- entropius: chaos pup
+        [25165] = 27578, -- sacrolash: wretched servant
+        [25166] = 27578, -- alythess: wretched servant
+    },
 }
 
 local achievement_settings = {
