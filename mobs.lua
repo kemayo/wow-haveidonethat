@@ -119,6 +119,10 @@ function mod:UpdateMobTooltip(id, unit_name)
                 mobs = {}
                 for i=1, GetAchievementNumCriteria(achievementid) do
                     local desc, _, _, _, _, _, _, id, _, criteriaid = GetAchievementCriteriaInfo(achievementid, i)
+                    if settings.use_index or not criteriaid or criteriaid == 0 then
+                        criteriaid = i
+                        settings.use_index = true
+                    end
                     mobs[id] = criteriaid
                     mobs[desc] = criteriaid
                     achievements[achievementid] = mobs
@@ -143,7 +147,7 @@ function mod:UpdateMobTooltipWithCriteria(settings, achievementid, criteriaid, a
         end
         return already_said_name
     end
-    local desc, _, done = GetAchievementCriteriaInfoByID(achievementid, criteriaid)
+    local desc, _, done = (settings.use_index and GetAchievementCriteriaInfo or GetAchievementCriteriaInfoByID)(achievementid, criteriaid)
     if core.db.done_criteria or not done then
         if settings.criteria_label and not already_said_name then
             already_said_name = true
