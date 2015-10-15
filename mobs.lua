@@ -105,7 +105,7 @@ function mod:UPDATE_MOUSEOVER_UNIT()
 end
 
 -- This is split out entirely so I can test this without having to actually hunt down a relevant mob
--- /script HIDT:GetModule('mobs'):UpdateTooltip(51059, "name")
+-- /script HIDT:GetModule('mobs'):UpdateMobTooltip(51059, "name")
 function mod:UpdateMobTooltip(id, unit_name)
     core.Debug("UpdateMobTooltip", id, unit_name)
     if not id then
@@ -119,9 +119,8 @@ function mod:UpdateMobTooltip(id, unit_name)
                 mobs = {}
                 for i=1, GetAchievementNumCriteria(achievementid) do
                     local desc, _, _, _, _, _, _, id, _, criteriaid = GetAchievementCriteriaInfo(achievementid, i)
-                    if settings.use_index or not criteriaid or criteriaid == 0 then
-                        criteriaid = i
-                        settings.use_index = true
+                    if not criteriaid or criteriaid == 0 then
+                        criteriaid = "index:" .. i
                     end
                     mobs[id] = criteriaid
                     mobs[desc] = criteriaid
@@ -147,7 +146,12 @@ function mod:UpdateMobTooltipWithCriteria(settings, achievementid, criteriaid, a
         end
         return already_said_name
     end
-    local desc, _, done = (settings.use_index and GetAchievementCriteriaInfo or GetAchievementCriteriaInfoByID)(achievementid, criteriaid)
+    local desc, _, done
+    if type(criteriaid) == "string" then
+        desc, _, done = GetAchievementCriteriaInfo(achievementid, tonumber(criteriaid:match("(%d+)")))
+    else
+        desc, _, done = GetAchievementCriteriaInfoByID(achievementid, criteriaid)
+    end
     if core.db.done_criteria or not done then
         if settings.criteria_label and not already_said_name then
             already_said_name = true

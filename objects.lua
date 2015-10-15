@@ -32,7 +32,6 @@ function mod:OnShow(tooltip)
         end
         if nodes then
             for criteria, criteriaid in pairs(nodes) do
-                self.Debug("considering", text, criteria, text:match(criteria))
                 if text:match(criteria) then
                     local _, a_name, _, complete = GetAchievementInfo(achievementid)
                     if core.db.done_achievements or not complete then
