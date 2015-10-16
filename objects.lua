@@ -32,7 +32,7 @@ function mod:OnShow(tooltip)
         end
         if nodes then
             for criteria, criteriaid in pairs(nodes) do
-                if text:match(criteria) then
+                if text:match("^"..criteria) then
                     local _, a_name, _, complete = GetAchievementInfo(achievementid)
                     if core.db.done_achievements or not complete then
                         local desc, _, done, _, _, _, flags, _, quantityString = GetAchievementCriteriaInfoByID(achievementid, criteriaid)

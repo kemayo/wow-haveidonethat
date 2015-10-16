@@ -30,7 +30,7 @@ function mod:OnTooltipSetItem(tooltip)
 
     -- and now the types
     if core.db.achievements then
-        for achievementid,items in pairs(achievements) do
+        for achievementid, items in pairs(achievements) do
             if items == false then
                 items = {}
                 for i=1, GetAchievementNumCriteria(achievementid) do
