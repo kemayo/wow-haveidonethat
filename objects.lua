@@ -15,6 +15,8 @@ function mod:OnShow(tooltip)
     -- we have a tooltip, and it's a single-line with only some text on the left
     -- this means there's decent odds that we're dealing with a world object
     local text = _G[tooltip:GetName().."TextLeft1"]:GetText()
+    if not text then return end
+    text = "^" .. text:gsub("%s*School%s*", "")
     for achievementid, nodes in pairs(achievements) do
         if nodes == false then
             nodes = {}
@@ -22,7 +24,7 @@ function mod:OnShow(tooltip)
                 local desc, _, _, _, _, _, flags, assetid, _, criteriaid = GetAchievementCriteriaInfo(achievementid, i)
                 if desc == "" and assetid and bit.band(flags, 0x00000001) == 0x00000001 then
                     desc = GetItemInfo(assetid)
-                    desc = desc and desc:gsub("Enormous ", "")
+                    desc = desc and desc:gsub("%s*Enormous%s*", "")
                 end
                 if desc and desc ~= "" and criteriaid then
                     nodes[desc] = criteriaid
@@ -32,7 +34,7 @@ function mod:OnShow(tooltip)
         end
         if nodes then
             for criteria, criteriaid in pairs(nodes) do
-                if text:match("^"..criteria) then
+                if criteria:match(text) then
                     local _, a_name, _, complete = GetAchievementInfo(achievementid)
                     if core.db.done_achievements or not complete then
                         local desc, _, done, _, _, _, flags, _, quantityString = GetAchievementCriteriaInfoByID(achievementid, criteriaid)
