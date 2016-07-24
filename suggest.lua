@@ -226,7 +226,7 @@ do
 
             local to_suggest = suggestion_handler(to_suggest, suggestions, size, variant)
 
-            local trade = GetTradeSkillLine()
+            local _, trade = C_TradeSkillUI.GetTradeSkillLine()
             if trade and skills[trade] then
                 prepend(to_suggest, skills[trade])
             end
