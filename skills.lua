@@ -100,7 +100,7 @@ function mod:RefreshDisplay(frame)
         local tradeSkillInfo = frame.dataList[offset + i]
         if tradeSkillInfo and tradeSkillInfo.type == "recipe" then
             local achievementid, criteriaid, achievement_done, criteria_done = self:CheckRecipe(skill, tradeSkillInfo.name)
-            if achievementid and core.db.done_achievements or not achievement_done then
+            if achievementid and (core.db.done_achievements or not achievement_done) then
                 if --[[ core.db.done_criteria or --]] not criteria_done then
                     self:GetIconForTradeSkillLine(tradeSkillButton, tradeSkillInfo.name)
                 end
