@@ -41,10 +41,19 @@ function mod:OnTooltipSetItem(tooltip)
                     end
                 end
             end
+            if items and items.map_needed then
+                items.map_needed = nil
+                self:CriteriaIDForItems(achievementid, items)
+            end
             if items and items[id] then
                 local _, a_name, _, complete = GetAchievementInfo(achievementid)
                 if core.db.done_achievements or not complete then
-                    local desc, _, done = GetAchievementCriteriaInfoByID(achievementid, items[id])
+                    local desc, done
+                    if items[id] < 0 then
+                        desc, _, done = GetAchievementCriteriaInfo(achievementid, -items[id])
+                    else
+                        desc, _, done = GetAchievementCriteriaInfoByID(achievementid, items[id])
+                    end
                     if core.db.done_criteria or not done then
                         self:AddTooltipLine(tooltip, done, a_name, NEED, DONE)
                     end
@@ -61,6 +70,36 @@ function mod:OnTooltipSetItem(tooltip)
 
     -- refresh!
     tooltip:Show()
+end
+
+function mod:CriteriaIDForItems(achievementid, itemid_table)
+    -- takes an achievement and a table of {itemid1 = itemid2}, and maps that table in-place into {itemid1 = criteriaid}
+    -- where criteriaid is the criteria associated with itemid2, either by itemid in the criteriainfo, or by name
+    local itemid_to_criteria = {}
+    local name_to_criteria = {}
+    for i=1, GetAchievementNumCriteria(achievementid) do
+        local desc, _, _, _, _, _, _, itemid, _, criteriaid = GetAchievementCriteriaInfo(achievementid, i)
+        criteriaid = (criteriaid == 0) and -i or criteriaid
+        if itemid and itemid > 0 then
+            itemid_to_criteria[itemid] = criteriaid
+        else
+            name_to_criteria[desc] = criteriaid
+        end
+    end
+    for k, itemid in pairs(itemid_table) do
+        if itemid_to_criteria[itemid] then
+            itemid_table[k] = itemid_to_criteria[itemid]
+        else
+            local name = GetItemInfo(itemid)
+            if name and name_to_criteria[name] then
+                itemid_table[k] = name_to_criteria[name]
+            else
+                -- better to wipe it out than give bad values
+                itemid_table[k] = nil
+            end
+        end
+    end
+    return itemid_table
 end
 
 -- big ol' lists
@@ -87,6 +126,38 @@ achievements = {
     [7329] = false, -- pandaren cuisine
     [7330] = false, -- pandaren delicacies
     [9502] = false, -- draenor cuisine
+    [10596] = {
+        map_needed = true,
+        -- azsuna
+        [133701] = 133725, -- Leyshimmer Blenny (skrog toenail)
+        [133702] = 133725, -- Leyshimmer Blenny (murloc slime)
+        [133703] = 133726, -- Nar'thalas Hermet (pearlescent conch)
+        [133704] = 133727, -- Ghostly Queenfish (rusty queenfish brooch)
+        -- val'sharah
+        [133705] = 133730, -- Ancient Mossgill (rotten fishbone)
+        [133708] = 133729, -- Thorned Flounder (Drowned Thistleleaf)
+        [133707] = 133728, -- Terrorfin (nightmare nightcrawler)
+        -- highmountain
+        [133709] = 133733, -- Ancient Highmountain Salmon (funky sea snail)
+        [133710] = 133733, -- Ancient Highmountain Salmon (salmon lure)
+        [133711] = 133731, -- Mountain Puffer (Swollen Murloc Egg)
+        [133712] = 133732, -- Coldriver Carp (Frost Worm)
+        -- Stormheim
+        [133713] = 133736, -- Thundering Stormray (Moosehorn Hook)
+        [133714] = 133736, -- Thundering Stormray (Silverscale Minnow)
+        [133715] = 133734, -- Oodelfjisk (Ancient Vrykul Ring)
+        [133716] = 133735, -- Graybelly Lobster (Soggy Drakescale)
+        -- Suramar
+        [133717] = 133737, -- Magic-Eater Frog (Enchanted Lure)
+        [133719] = 133738, -- Seerspine Puffer (Sleeping Murloc)
+        [133720] = 133739, -- Tainted Runescale Koi (Demonic Detritus)
+        -- Ocean
+        [133721] = 133740, -- Axefish (Message in a Beer Bottle)
+        [133722] = 133740, -- Axefish (Axefish Lure)
+        [133723] = 133741, -- Seabottom Squid (Stunned, Angry Shark)
+        [133724] = 133742, -- Ancient Black Barracuda (Decayed Whale Blubber)
+        [133795] = 133742, -- Ancient Black Barracuda (Ravenous fly)
+    },
     [5755] = { -- tabards
         [5976] = 2340,
         [11364] = 2922,
