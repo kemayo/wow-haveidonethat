@@ -149,7 +149,7 @@ do
     end
     local function tab_click(tab, button)
         if (button) then
-            PlaySound("igCharacterInfoTab")
+            PlaySound(SOUNDKIT.IG_CHARACTER_INFO_TAB)
         end
 
         -- Go through and unselect all the other tabs, and make ours look selected
