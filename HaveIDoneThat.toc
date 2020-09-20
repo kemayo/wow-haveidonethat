@@ -16,10 +16,7 @@
 ## X-LoadOn-Always: delayed
 ## X-LoadOn-Slash: /haveidonethat
 
-lib\LibStub.lua
-lib\CallbackHandler-1.0\CallbackHandler-1.0.xml
-lib\LibDataBroker-1.1\LibDataBroker-1.1.lua
-lib\tekKonfig\tekKonfig.xml
+embeds.xml
 
 template\Database.lua
 template\UtilityFunctions.lua
@@ -37,6 +34,5 @@ skills.lua
 
 compare.lua
 suggest.lua
-filter.lua
 
 config.lua
