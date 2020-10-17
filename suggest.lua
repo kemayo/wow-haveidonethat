@@ -314,7 +314,7 @@ do
         frame.suggest_type = "smart"
         frame.suggest_id = "smart"
 
-        local backdrop = CreateFrame("Frame", nil, frame)
+        local backdrop = CreateFrame("Frame", nil, frame, "BackdropTemplate")
         backdrop:SetAllPoints()
         backdrop:SetBackdrop({
             edgeFile = [[Interface\Tooltips\UI-Tooltip-Border]],
@@ -376,7 +376,7 @@ do
 
         -- Now we need that left sidebar
 
-        sidebar = CreateFrame("Frame", frame:GetName().."Sidebar", AchievementFrame)
+        sidebar = CreateFrame("Frame", frame:GetName().."Sidebar", AchievementFrame, "BackdropTemplate")
         sidebar:SetWidth(197)
         sidebar:SetPoint("TOPLEFT", 21, -19)
         sidebar:SetPoint("BOTTOMLEFT", 21, 20)
