@@ -33,6 +33,10 @@ local achievements = {
     [2557] = false, -- To All The Squirrels Who Shared My Life
     [5548] = false, -- To All the Squirrels Who Cared for Me
     [6350] = false, -- To All the Squirrels I Once Caressed?
+    [14728] = false, -- To All the Squirrels Through Time and Space
+    [14729] = false, -- To All the Squirrels I Love Despite Their Scars
+    [14730] = false, -- To All the Squirrels I Set Sail to See
+    [14731] = false, -- To All the Squirrels I've Loved and Lost
     -- general tag-em quests
     [7316] = false, -- Over Their Heads
     [7317] = false, -- One Man Army
@@ -87,6 +91,10 @@ local achievement_settings = {
     [2557] = { need = EMOTE152_CMD1, done = DONE, }, -- squirrels 2
     [5548] = { need = EMOTE152_CMD1, done = DONE, }, -- squirrels 3
     [6350] = { need = EMOTE152_CMD1, done = DONE, }, -- squirrels 4
+    [14728] = { need = EMOTE152_CMD1, done = DONE, }, -- squirrels 5
+    [14729] = { need = EMOTE152_CMD1, done = DONE, }, -- squirrels 6
+    [14730] = { need = EMOTE152_CMD1, done = DONE, }, -- squirrels 7
+    [14731] = { need = EMOTE152_CMD1, done = DONE, }, -- squirrels 8
     [7934] = { criteria_label = true, done = USED, }, -- leashes 1
     [8293] = { criteria_label = true, done = USED, }, -- leashes 2
     [9824] = { criteria_label = true, done = USED, }, -- leashes 3
