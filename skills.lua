@@ -3,13 +3,16 @@ local mod = ns:NewModule("skills")
 local core = ns:GetModule("core")
 
 local skills = {
-    [PROFESSIONS_COOKING] = {
+    [185] = { -- Cooking
         [1800] = false, -- "The Outland Gourmet"
         [1779] = false, -- The Northrend Gourmet
         [5473] = false, -- The Cataclysmic Gourmet
         [7327] = false, -- The Pandaren Gourmet
         [9501] = false, -- The Draenor Gourmet
         [1780] = false, -- Second That Emotion
+    },
+    [2787] = { -- Abominable Stitching
+        [14748] = false, -- Wardrobe Makeover
     },
 }
 hskills = skills
@@ -35,22 +38,28 @@ function mod:Hooks()
     hooksecurefunc(TradeSkillFrame.RecipeList, "update", function(self) mod:RefreshDisplay(self) end)
 end
 
+function mod:GetRecipesForOpenSkill()
+    local skillLineID, skillLineDisplayName, skillLineRank, skillLineMaxRank, skillLineModifier, parentSkillLineID, parentSkillLineDisplayName = C_TradeSkillUI.GetTradeSkillLine()
+    if parentSkillLineID and parentSkillLineID ~= 0 then
+        skillLineID = parentSkillLineID
+    end
+    local recipes = skillLineID and skills[skillLineID] or {}
+    return recipes, skillLineID
+end
+
 local icon_cache = {}
 local function button_onenter(self)
     local icon = icon_cache[self]
     if not (icon and icon.name and icon:IsVisible()) then
         return
     end
-    local _, skill = C_TradeSkillUI.GetTradeSkillLine()
-    if not (skill and skills[skill]) then
-        return
-    end
+    local recipes = mod:GetRecipesForOpenSkill()
     GameTooltip:SetOwner(self, "ANCHOR_NONE")
     GameTooltip:SetPoint("TOPLEFT", self, "TOPRIGHT")
     GameTooltip:AddLine(SUMMARY_ACHIEVEMENT_INCOMPLETE)
 
-    for achievementid, recipes in pairs(skills[skill]) do
-        if recipes and recipes[icon.name] then
+    for achievementid, achievementRecipes in pairs(recipes) do
+        if achievementRecipes and achievementRecipes[icon.name] then
             local _, name, _, complete = GetAchievementInfo(achievementid)
             if not complete then
                 GameTooltip:AddLine(name)
@@ -89,17 +98,14 @@ function mod:RefreshDisplay(frame)
         icon:Hide()
     end
 
-    local _, skill = C_TradeSkillUI.GetTradeSkillLine()
-    if not (skill and skills[skill]) then
-        return
-    end
+    local _, skillID = mod:GetRecipesForOpenSkill()
 
     -- This is mostly a copy of TradeSkillRecipeListMixin.RefreshDisplay
     local offset = HybridScrollFrame_GetOffset(frame)
     for i, tradeSkillButton in ipairs(frame.buttons) do
         local tradeSkillInfo = frame.dataList[offset + i]
         if tradeSkillInfo and tradeSkillInfo.type == "recipe" then
-            local achievementid, criteriaid, achievement_done, criteria_done = self:CheckRecipe(skill, tradeSkillInfo.name)
+            local achievementid, criteriaid, achievement_done, criteria_done = self:CheckRecipe(skillID, tradeSkillInfo.name)
             if achievementid and (core.db.done_achievements or not achievement_done) then
                 if --[[ core.db.done_criteria or --]] not criteria_done then
                     self:GetIconForTradeSkillLine(tradeSkillButton, tradeSkillInfo.name)
@@ -129,8 +135,8 @@ function mod:LoadAchievements()
     achievements_loaded = true
 end
 
-function mod:CheckRecipe(skill, name)
-    local achievements = skills[skill]
+function mod:CheckRecipe(skillID, name)
+    local achievements = skills[skillID]
     if not achievements then
         return
     end
