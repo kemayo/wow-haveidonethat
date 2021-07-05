@@ -38,9 +38,8 @@ end
 
 function core:HookAchievementFrame()
     hooksecurefunc("AchievementButton_DisplayAchievement", function(button, category, achievement, selectionID)
-        if not button:IsShown() then
-            return
-        end
+        if issecure() then return end
+        if not button:IsShown() then return end
         if button.id_text then
             button.id_text:Hide()
         end
