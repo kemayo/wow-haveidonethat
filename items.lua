@@ -2,7 +2,7 @@ local myname, ns = ...
 local mod = ns:NewModule("items")
 local core = ns:GetModule("core")
 
-local commendations, achievements
+local commendations, achievements, quests
 
 function mod:OnLoad()
     self:HookScript(GameTooltip, "OnTooltipSetItem")
@@ -71,6 +71,11 @@ function mod:OnTooltipSetItem(tooltip)
         self:AddTooltipLine(tooltip, hasBonusRepGain, BONUS_REPUTATION_TITLE, NEED, DONE)
     end
 
+    if core.db.quests and quests[id] then
+        local questComplete = C_QuestLog.IsQuestFlaggedCompleted(quests[id])
+        self:AddTooltipLine(tooltip, questComplete, QUEST_COMPLETE, NEED, DONE)
+    end
+
     -- refresh!
     tooltip:Show()
 end
@@ -123,6 +128,33 @@ commendations = {
     [93232] = 1375, -- dominance offensive
     [95545] = 1387, -- kirin tor offensive
     [93231] = 1376, -- operation shieldwall
+}
+
+quests = {
+    -- Ve'nari maw
+    [184613] = 63177, -- Encased Riftwalker Essence
+    [184653] = 63217, -- Animated Levitating Chain
+    [180949] = 61600, -- Animaflow Stabilizer
+    [184605] = 63092, -- Sigil of the Unseen
+    [184588] = 63091, -- Soul-Stabilizing Talisman
+    -- Ve'nari torghast
+    [184620] = 63202, -- Vessel of Unforunate Spirits
+    [184615] = 63183, -- Extradimensional Pockets
+    [184901] = 63523, -- Broker Traversal Enhancer
+    [184617] = 63193, -- Bangle of Seniority
+    [184621] = 63204, -- Ritual Prism of Fortune
+    [184618] = 63200, -- Rank Insignia: Acquisitionist
+    [184619] = 63201, -- Loupe of Unusual Charm
+    [180952] = 61144, -- Possibility Matrix
+    -- Korthia
+    [186714] = 64339, -- Research Report: all-seeing crystal
+    [187138] = 64303, -- Research Report: First Alloys
+    [186717] = 64300, -- Research Report: Adaptive Alloys
+    [186716] = 64348, -- Research Report: Ancient Shrines
+    [186721] = 64366, -- Treatise: Relics Abound in the Shadowlands
+    [186722] = 64027, -- Treatise: The Study of Anima and Harnessing Every Drop
+    [187145] = 64307, -- Treatise: Recognizing Stygia and its Uses
+    [187706] = 64828, -- Treatise: Bonds of Stygia in Mortals
 }
 
 achievements = {

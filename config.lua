@@ -40,6 +40,7 @@ frame:SetScript("OnShow", function(frame)
     local items_heading = simple_section(frame, show_id, ITEMS)
 
     local commendations = simple_config(frame, items_heading, "commendations", "Show commendations", "Show whether or not you've already bought and applied a commendation")
+    local quests = simple_config(frame, commendations, "quests", "Show quests", "Show whether or not you've already completed a quest associated with an item")
 
     frame:SetScript("OnShow", nil)
 end)

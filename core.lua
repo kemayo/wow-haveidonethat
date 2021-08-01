@@ -10,6 +10,7 @@ core.defaults = {
     done_achievements = true,
     done_criteria = true,
     commendations = true,
+    quests = true,
     id = false,
 }
 core.defaultsPC = {}
