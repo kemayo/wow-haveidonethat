@@ -151,6 +151,7 @@ quests = {
     [187138] = 64303, -- Research Report: First Alloys
     [186717] = 64300, -- Research Report: Adaptive Alloys
     [186716] = 64348, -- Research Report: Ancient Shrines
+    [187136] = 64367, -- Research Report: Relic Examination Techniques
     [186721] = 64366, -- Treatise: Relics Abound in the Shadowlands
     [186722] = 64027, -- Treatise: The Study of Anima and Harnessing Every Drop
     [187145] = 64307, -- Treatise: Recognizing Stygia and its Uses
