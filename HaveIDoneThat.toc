@@ -1,4 +1,4 @@
-﻿## Interface: 90001
+﻿## Interface: 100002
 ## Title: Have I Done That?
 ## Notes: ...have I done that (probably achievement-related) thing?
 ## Version: @project-version@
@@ -33,6 +33,6 @@ players.lua
 skills.lua
 
 compare.lua
-suggest.lua
+#suggest.lua
 
 config.lua

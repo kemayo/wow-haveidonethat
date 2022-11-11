@@ -4,16 +4,28 @@ local core = ns:GetModule("core")
 
 local commendations, achievements, quests
 
+local function GetTooltipItem(tooltip)
+    if _G.TooltipDataProcessor then
+        return TooltipUtil.GetDisplayedItem(tooltip)
+    end
+    return tooltip:GetItem()
+end
+
 function mod:OnLoad()
-    self:HookScript(GameTooltip, "OnTooltipSetItem")
-    self:HookScript(ItemRefTooltip, "OnTooltipSetItem")
-    self:HookScript(ShoppingTooltip1, "OnTooltipSetItem")
-    self:HookScript(ShoppingTooltip2, "OnTooltipSetItem")
-    -- self:HookScript(ShoppingTooltip3, "OnTooltipSetItem")
+    if _G.TooltipDataProcessor then
+        TooltipDataProcessor.AddTooltipPostCall(Enum.TooltipDataType.Item, function(tooltip, data)
+            self:OnTooltipSetItem(tooltip)
+        end)
+    else
+        self:HookScript(GameTooltip, "OnTooltipSetItem")
+        self:HookScript(ItemRefTooltip, "OnTooltipSetItem")
+        self:HookScript(ShoppingTooltip1, "OnTooltipSetItem")
+        self:HookScript(ShoppingTooltip2, "OnTooltipSetItem")
+    end
 end
 
 function mod:OnTooltipSetItem(tooltip)
-    local name, link = tooltip:GetItem()
+    local name, link = GetTooltipItem(tooltip)
     if not name then
         return
     end
