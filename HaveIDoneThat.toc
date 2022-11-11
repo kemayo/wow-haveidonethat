@@ -6,6 +6,7 @@
 ## eMail: kemayo at gmail dot com
 ## X-Category: Achievements
 ## X-Donate: PayPal:kemayo AT gmail DOT com
+## X-Curse-Project-ID: 64705
 
 ## SavedVariables: HaveIDoneThatDB
 ## SavedVariablesPerCharacter: HaveIDoneThatDBPC
