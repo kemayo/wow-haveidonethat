@@ -37,6 +37,7 @@ local achievements = {
     [14729] = false, -- To All the Squirrels I Love Despite Their Scars
     [14730] = false, -- To All the Squirrels I Set Sail to See
     [14731] = false, -- To All the Squirrels I've Loved and Lost
+    [16729] = false, -- To All the Squirrels Hidden Til Now
     -- general tag-em quests
     [7316] = false, -- Over Their Heads
     [7317] = false, -- One Man Army
