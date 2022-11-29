@@ -96,6 +96,7 @@ local achievement_settings = {
     [14729] = { need = EMOTE152_CMD1, done = DONE, }, -- squirrels 6
     [14730] = { need = EMOTE152_CMD1, done = DONE, }, -- squirrels 7
     [14731] = { need = EMOTE152_CMD1, done = DONE, }, -- squirrels 8
+    [16729] = { need = EMOTE152_CMD1, done = DONE, }, -- squirrels 9
     [7934] = { criteria_label = true, done = USED, }, -- leashes 1
     [8293] = { criteria_label = true, done = USED, }, -- leashes 2
     [9824] = { criteria_label = true, done = USED, }, -- leashes 3
