@@ -38,6 +38,8 @@ local achievements = {
     [14730] = false, -- To All the Squirrels I Set Sail to See
     [14731] = false, -- To All the Squirrels I've Loved and Lost
     [16729] = false, -- To All the Squirrels Hidden Til Now
+    [16424] = false, -- Who's a Good Bakar?
+    [16574] = false, -- Sleeping on the Job
     -- general tag-em quests
     [7316] = false, -- Over Their Heads
     [7317] = false, -- One Man Army
@@ -97,6 +99,8 @@ local achievement_settings = {
     [14730] = { need = EMOTE152_CMD1, done = DONE, }, -- squirrels 7
     [14731] = { need = EMOTE152_CMD1, done = DONE, }, -- squirrels 8
     [16729] = { need = EMOTE152_CMD1, done = DONE, }, -- squirrels 9
+    [16424] = { need = EMOTE410_CMD1, done = DONE }, -- Bakar
+    [16574] = { need = EMOTE88_CMD1 , done = DONE }, -- Sleeping on the Job
     [7934] = { criteria_label = true, done = USED, }, -- leashes 1
     [8293] = { criteria_label = true, done = USED, }, -- leashes 2
     [9824] = { criteria_label = true, done = USED, }, -- leashes 3
