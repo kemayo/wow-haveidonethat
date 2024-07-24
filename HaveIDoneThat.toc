@@ -17,6 +17,8 @@
 ## X-LoadOn-Always: delayed
 ## X-LoadOn-Slash: /haveidonethat
 
+embeds.xml
+
 template\Database.lua
 template\UtilityFunctions.lua
 template\EventDispatcher.lua
