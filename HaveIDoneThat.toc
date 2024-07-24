@@ -1,4 +1,4 @@
-﻿## Interface: 100002
+﻿## Interface: 110000, 110002
 ## Title: Have I Done That?
 ## Notes: ...have I done that (probably achievement-related) thing?
 ## Version: @project-version@
@@ -12,12 +12,10 @@
 ## SavedVariablesPerCharacter: HaveIDoneThatDBPC
 
 ## OptionalDeps: tekDebug, tekErr
-## X-Embeds: LibStub, CallbackHandler-1.0, LibDataBroker-1.1, tekKonfig
+## X-Embeds: LibStub, CallbackHandler-1.0, LibDataBroker-1.1
 ## LoadManagers: AddonLoader
 ## X-LoadOn-Always: delayed
 ## X-LoadOn-Slash: /haveidonethat
-
-embeds.xml
 
 template\Database.lua
 template\UtilityFunctions.lua

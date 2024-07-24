@@ -18,7 +18,7 @@ local skills = {
 hskills = skills
 
 function mod:OnLoad()
-    if IsAddOnLoaded("Blizzard_TradeSkillUI") then
+    if C_AddOns.IsAddOnLoaded("Blizzard_TradeSkillUI") then
         self:Hooks()
     else
         self:RegisterEvent("ADDON_LOADED")

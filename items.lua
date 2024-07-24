@@ -29,7 +29,7 @@ function mod:OnTooltipSetItem(tooltip)
     if not name then
         return
     end
-    local name, link, quality, ilvl, reqlvl, class, subclass, maxstack, equipslot, texture, vendorprice = GetItemInfo(link)
+    local name, link, quality, ilvl, reqlvl, class, subclass, maxstack, equipslot, texture, vendorprice = C_Item.GetItemInfo(link)
     if not name then
         -- Honestly, this is incredibly unlikely.
         return
@@ -111,7 +111,7 @@ function mod:CriteriaIDForItems(achievementid, itemid_table)
         if itemid_to_criteria[itemid] then
             ret[k] = itemid_to_criteria[itemid]
         else
-            local name = GetItemInfo(itemid)
+            local name = C_Item.GetItemInfo(itemid)
             if name and name_to_criteria[name] then
                 ret[k] = name_to_criteria[name]
             else

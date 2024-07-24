@@ -52,7 +52,7 @@ function mod:UPDATE_MOUSEOVER_UNIT()
         return
     end
     for achievementid,data in pairs(achievements) do
-        if (not data.item) or GetItemCount(data.item) > 0 then
+        if (not data.item) or C_Item.GetItemCount(data.item) > 0 then
             local possible_match = data.unit("mouseover")
             if possible_match then
                 if not data.criteria then

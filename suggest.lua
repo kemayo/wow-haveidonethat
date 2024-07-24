@@ -1,5 +1,5 @@
 local myname, ns = ...
-local myfullname = GetAddOnMetadata(myname, "Title")
+local myfullname = C_AddOns.GetAddOnMetadata(myname, "Title")
 local mod = ns:NewModule("suggest")
 local core = ns:GetModule("core")
 
@@ -19,7 +19,7 @@ local function prepend(t1, t2)
 end
 
 function mod:OnLoad()
-    if IsAddOnLoaded("Blizzard_AchievementUI") then
+    if C_AddOns.IsAddOnLoaded("Blizzard_AchievementUI") then
         self:CreateFrame()
     else
         mod:RegisterEvent("ADDON_LOADED")

@@ -1,20 +1,86 @@
 local myname, ns = ...
-local myfullname = GetAddOnMetadata(myname, "Title")
+local myfullname = C_AddOns.GetAddOnMetadata(myname, "Title")
 local core = ns:GetModule("core")
 
-local tekcheck = LibStub("tekKonfig-Checkbox")
 local GAP = 8
 local EDGEGAP = 16
 
+local function makeFontString(frame, label, indented)
+    local text = frame:CreateFontString(nil, "OVERLAY", indented and "GameFontNormalSmall" or "GameFontNormal")
+    text:SetJustifyH("LEFT")
+    text:SetText(label)
+    if indented then
+        text:SetPoint("LEFT", frame, (15 + 37), 0) -- indent variant
+    else
+        text:SetPoint("LEFT", frame, 37, 0)
+    end
+    text:SetPoint("RIGHT", frame, "CENTER", -85, 0)
+
+    return text
+end
+
+local function makeTitle(parent, text)
+    local title = CreateFrame("Frame", nil, parent)
+    title.Text = makeFontString(title, text)
+    title:SetSize(280, 26)
+    title:SetPoint("RIGHT", parent)
+    return title
+end
+
+local makeCheckbox
+do
+    local function checkboxGetValue(self) return core.db[self.key] end
+    local function checkboxSetChecked(self) self:SetChecked(self:GetValue()) end
+    local function checkboxSetValue(self, checked)
+        core.db[self.key] = checked
+        if self.callback then self.callback(self.key, checked) end
+    end
+    local function checkboxOnClick(self)
+        local checked = self:GetChecked()
+        PlaySound(checked and SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_ON or SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_OFF)
+        self:SetValue(checked)
+    end
+    local function checkboxOnEnter(self)
+        if self.tooltipText then
+            GameTooltip:SetOwner(self, self.tooltipOwnerPoint or "ANCHOR_RIGHT")
+            GameTooltip:SetText(self.tooltipText, nil, nil, nil, nil, true)
+        end
+        if self.tooltipRequirement then
+            GameTooltip:AddLine(self.tooltipRequirement, 1.0, 1.0, 1.0, true)
+            GameTooltip:Show()
+        end
+    end
+    function makeCheckbox(parent, key, label, description, callback)
+        local frame = CreateFrame("Frame", nil, parent)
+        local check = CreateFrame("CheckButton", nil, frame, "InterfaceOptionsCheckButtonTemplate")
+        check.key = key
+        check.callback = callback
+        check.GetValue = checkboxGetValue
+        check.SetValue = checkboxSetValue
+        check:SetScript('OnShow', checkboxSetChecked)
+        check:SetScript("OnClick", checkboxOnClick)
+        check:SetScript("OnEnter", checkboxOnEnter)
+        check:SetScript("OnLeave", GameTooltip_Hide)
+        check.tooltipText = label
+        check.tooltipRequirement = description
+        check:SetPoint("LEFT", frame, "CENTER", -90, 0)
+        frame.Check = check
+
+        frame.Text = makeFontString(frame, label, true)
+
+        frame:SetPoint("RIGHT", parent)
+
+        frame:SetSize(280, 26)
+
+        checkboxSetChecked(check)
+
+        return frame
+    end
+end
+
 local simple_config = function(frame, prev, key, label, tooltip, spacing)
-    local setting = tekcheck.new(frame, nil, label, "TOPLEFT", prev, "BOTTOMLEFT", 0, spacing or -GAP)
-    local checksound = setting:GetScript("OnClick")
-    setting.tiptext = tooltip
-    setting:SetScript("OnClick", function(self)
-        checksound(self)
-        core.db[key] = not core.db[key]
-    end)
-    setting:SetChecked(core.db[key])
+    local setting = makeCheckbox(frame, key, label, tooltip)
+    setting:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, spacing or -GAP)
     return setting
 end
 local simple_section = function(frame, prev, label)
@@ -28,9 +94,10 @@ local frame = CreateFrame("Frame", nil, InterfaceOptionsFramePanelContainer)
 frame.name = myfullname
 frame:Hide()
 frame:SetScript("OnShow", function(frame)
-    local title, subtitle = LibStub("tekKonfig-Heading").new(frame, myfullname, ("General settings for %s."):format(myfullname))
+    local title = makeTitle(frame, myfullname)
+    title:SetPoint("TOPLEFT")
 
-    local ach_heading = simple_section(frame, subtitle, ACHIEVEMENTS)
+    local ach_heading = simple_section(frame, title, ACHIEVEMENTS)
 
     local achievements = simple_config(frame, ach_heading, "achievements", "Show achievements", "Show whether a mob or item is needed for an achievement")
     local done_achievements = simple_config(frame, achievements, "done_achievements", "Show criteria for completed achievements")
@@ -45,11 +112,11 @@ frame:SetScript("OnShow", function(frame)
     frame:SetScript("OnShow", nil)
 end)
 
-InterfaceOptions_AddCategory(frame)
+local category, layout = Settings.RegisterCanvasLayoutCategory(frame, frame.name, frame.name)
+category.ID = frame.name
+Settings.RegisterAddOnCategory(category)
 
-LibStub("tekKonfig-AboutPanel").new(myfullname, myname) -- Make first arg nil if no parent config panel
-
-_G["SLASH_".. myname:upper().."1"] = GetAddOnMetadata(myname, "X-LoadOn-Slash")
+_G["SLASH_".. myname:upper().."1"] = C_AddOns.GetAddOnMetadata(myname, "X-LoadOn-Slash")
 _G["SLASH_".. myname:upper().."2"] = "/hidt"
 SlashCmdList[myname:upper()] = function(msg)
     if msg:match("suggest") then
@@ -58,7 +125,7 @@ SlashCmdList[myname:upper()] = function(msg)
             suggest:ShowSuggestions()
         end
     else
-        InterfaceOptionsFrame_OpenToCategory(myfullname)
+        Settings.OpenToCategory(myfullname)
     end
 end
 
@@ -68,7 +135,7 @@ LibStub:GetLibrary("LibDataBroker-1.1"):NewDataObject(myname, {
     OnClick = function(self, button)
         local suggest = ns:GetModule("suggest")
         if (not suggest) or button == "RightButton" then
-            InterfaceOptionsFrame_OpenToCategory(myfullname)
+            Settings.OpenToCategory(myfullname)
         else
             suggest:ShowSuggestions()
         end

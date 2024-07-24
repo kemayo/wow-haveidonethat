@@ -1,5 +1,5 @@
 local myname, ns = ...
-local myfullname = GetAddOnMetadata(myname, "Title")
+local myfullname = C_AddOns.GetAddOnMetadata(myname, "Title")
 
 HIDT = ns
 
@@ -22,7 +22,7 @@ function core:OnLoad()
     hooksecurefunc(GameTooltip, "SetHyperlink", self.OnSetHyperlink)
     hooksecurefunc(ItemRefTooltip, "SetHyperlink", self.OnSetHyperlink)
 
-    if IsAddOnLoaded("Blizzard_AchievementUI") then
+    if C_AddOns.IsAddOnLoaded("Blizzard_AchievementUI") then
         self:HookAchievementFrame()
     else
         self:RegisterEvent("ADDON_LOADED")

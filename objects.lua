@@ -23,7 +23,7 @@ function mod:OnShow(tooltip)
             for i=1, GetAchievementNumCriteria(achievementid) do
                 local desc, _, _, _, _, _, flags, assetid, _, criteriaid = GetAchievementCriteriaInfo(achievementid, i)
                 if desc == "" and assetid and bit.band(flags, 0x00000001) == 0x00000001 then
-                    desc = GetItemInfo(assetid)
+                    desc = C_Item.GetItemInfo(assetid)
                     desc = desc and desc:gsub("%s*Enormous%s*", "")
                 end
                 if desc and desc ~= "" and criteriaid then
