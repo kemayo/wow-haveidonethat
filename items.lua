@@ -79,7 +79,15 @@ function mod:OnTooltipSetItem(tooltip)
 
     -- and this is a different check
     if core.db.commendations and commendations[id] then
-        local hasBonusRepGain = select(15, GetFactionInfoByID(commendations[id]))
+        local hasBonusRepGain
+        if GetFactionInfoByID then
+            hasBonusRepGain = select(15, GetFactionInfoByID(commendations[id]))
+        else
+            local info = C_Reputation.GetFactionDataByID(id)
+            if info and info.name then
+                hasBonusRepGain = info.hasBonusRepGain
+            end
+        end
         self:AddTooltipLine(tooltip, hasBonusRepGain, BONUS_REPUTATION_TITLE, NEED, DONE)
     end
 
