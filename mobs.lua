@@ -38,6 +38,7 @@ local achievements = {
     [14730] = false, -- To All the Squirrels I Set Sail to See
     [14731] = false, -- To All the Squirrels I've Loved and Lost
     [16729] = false, -- To All the Squirrels Hidden Til Now
+    [18361] = false, -- To All the Squirrels Burrowed Beneath
     [16424] = false, -- Who's a Good Bakar?
     [16574] = false, -- Sleeping on the Job
     -- general tag-em quests
