@@ -5,17 +5,30 @@ local core = ns:GetModule("core")
 local achievements
 
 function mod:OnLoad()
-    self:HookScript(GameTooltip, "OnShow")
+    if _G.C_TooltipInfo then
+        -- Cata-classic has TooltipDataProcessor, but doesn't actually use the new tooltips
+        TooltipDataProcessor.AddTooltipPostCall(Enum.TooltipDataType.Object, function(tooltip, tooltipData)
+            if tooltip ~= GameTooltip then return end
+            if not (tooltipData and tooltipData.lines) then
+                return
+            end
+            mod:CheckText(tooltipData.lines[1].leftText, tooltip)
+        end)
+    else
+        GameTooltip:HookScript("OnShow", function(tooltip)
+            if tooltip:NumLines() ~= 1 then return end
+            if tooltip:GetUnit() or tooltip:GetItem() or tooltip:GetSpell() then return end
+            local title = _G[tooltip:GetName() .. "TextLeft1"]
+            if not title then return end
+            mod:CheckText(title:GetText(), tooltip)
+        end)
+    end
 end
 
-function mod:OnShow(tooltip)
-    if not tooltip then return end
-    if tooltip:NumLines() ~= 1 then return end
-    if _G[tooltip:GetName().."TextRight1"]:GetText() then return end
-    -- we have a tooltip, and it's a single-line with only some text on the left
-    -- this means there's decent odds that we're dealing with a world object
-    local text = _G[tooltip:GetName().."TextLeft1"]:GetText()
-    if not text then return end
+function mod:CheckText(text, tooltip)
+    -- print("CheckText", text)
+    if not text or text == "" then return end
+    if issecretvalue and issecretvalue(text) then return end
     text = "^" .. text:gsub("%s*School%s*", "")
     for achievementid, nodes in pairs(achievements) do
         if nodes == false then
