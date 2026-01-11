@@ -27,8 +27,8 @@ end
 
 function mod:CheckText(text, tooltip)
     -- print("CheckText", text)
-    if not text or text == "" then return end
     if issecretvalue and issecretvalue(text) then return end
+    if not text or text == "" then return end
     text = "^" .. text:gsub("%s*School%s*", "")
     for achievementid, nodes in pairs(achievements) do
         if nodes == false then
