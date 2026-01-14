@@ -132,7 +132,7 @@ function mod:UpdateMobTooltip(id, unit_name)
             local settings = achievement_settings[achievementid] or achievement_settings.default
             if mobs == false then
                 mobs = {}
-                for i=1, GetAchievementNumCriteria(achievementid) do
+                for i=1, GetAchievementNumCriteria(achievementid) or 0 do
                     local desc, _, _, _, _, _, _, id, _, criteriaid = GetAchievementCriteriaInfo(achievementid, i)
                     if not criteriaid or criteriaid == 0 then
                         criteriaid = "index:" .. i

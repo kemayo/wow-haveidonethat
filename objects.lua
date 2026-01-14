@@ -33,7 +33,7 @@ function mod:CheckText(text, tooltip)
     for achievementid, nodes in pairs(achievements) do
         if nodes == false then
             nodes = {}
-            for i=1, GetAchievementNumCriteria(achievementid) do
+            for i=1, GetAchievementNumCriteria(achievementid) or 0 do
                 local desc, _, _, _, _, _, flags, assetid, _, criteriaid = GetAchievementCriteriaInfo(achievementid, i)
                 if desc == "" and assetid and bit.band(flags, 0x00000001) == 0x00000001 then
                     desc = C_Item.GetItemInfo(assetid)
