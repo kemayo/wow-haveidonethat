@@ -113,7 +113,6 @@ frame:SetScript("OnShow", function(frame)
 end)
 
 local category, layout = Settings.RegisterCanvasLayoutCategory(frame, frame.name, frame.name)
-category.ID = frame.name
 Settings.RegisterAddOnCategory(category)
 
 _G["SLASH_".. myname:upper().."1"] = C_AddOns.GetAddOnMetadata(myname, "X-LoadOn-Slash")
@@ -125,7 +124,7 @@ SlashCmdList[myname:upper()] = function(msg)
             suggest:ShowSuggestions()
         end
     else
-        Settings.OpenToCategory(myfullname)
+        Settings.OpenToCategory(category:GetID())
     end
 end
 
@@ -135,7 +134,7 @@ LibStub:GetLibrary("LibDataBroker-1.1"):NewDataObject(myname, {
     OnClick = function(self, button)
         local suggest = ns:GetModule("suggest")
         if (not suggest) or button == "RightButton" then
-            Settings.OpenToCategory(myfullname)
+            Settings.OpenToCategory(category:GetID())
         else
             suggest:ShowSuggestions()
         end
